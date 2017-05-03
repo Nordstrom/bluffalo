@@ -1,0 +1,308 @@
+public enum CatDelegateMethod: Equatable, Hashable {
+    case catMeowed()
+    public var hashValue: Int {
+        get {
+            switch self {
+            case .catMeowed:
+                return 0
+            }
+        }
+    }
+}
+
+public func == (lhs: CatDelegateMethod, rhs: CatDelegateMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.catMeowed(), .catMeowed()): return true
+    }
+}
+struct CatDelegateStub<T>: Hashable, Equatable {
+    var method: CatDelegateMethod
+    var hashValue: Int {
+        return method.hashValue
+    }
+
+    init(method: CatDelegateMethod) {
+        self.method = method
+    }
+
+    public static func == (lhs: CatDelegateStub, rhs: CatDelegateStub) -> Bool {
+        return lhs.method == rhs.method
+    }
+    public static func catMeowed() -> CatDelegateStub<Any> {
+        return CatDelegateStub<Any>(method: .catMeowed())
+    }
+
+}
+
+struct CatDelegateReturn<T> {
+    var fake: FakeCatDelegate
+    var stub: CatDelegateStub<T>
+
+    func andReturn(_ value: T) {
+        fake.setReturnFor(stub: stub, value: value)
+    }
+}
+
+struct CatDelegateClassReturn<T> {
+    var stub: CatDelegateStub<T>
+
+    func andReturn(_ value: T) {
+        FakeCatDelegate.classStubs[stub] = value
+    }
+}
+
+class FakeCatDelegate: CatDelegate {
+    var stubs = [(Any,Any)]()
+    static var classStubs = [AnyHashable: Any]()
+    private var methodCalls = [Any]()
+    private static var classMethodCalls = [Any]()
+
+    func returnFor<T>(stub: CatDelegateStub<T>) -> Any? {
+        for tuple in stubs {
+            if let myStub = tuple.0 as? CatDelegateStub<T> {
+                if myStub == stub {
+                    return tuple.1
+                }
+            }
+        }
+        return nil
+    }
+
+    func setReturnFor<T>(stub: CatDelegateStub<T>, value: Any) {
+        stubs.append((stub, value))
+    }
+     func catMeowed(){
+        let stub = CatDelegateStub<Any>(method: .catMeowed())
+        methodCalls.append(stub)
+    }
+
+    func stub<T>(_ stub: CatDelegateStub<T>) -> CatDelegateReturn<T> {
+        return CatDelegateReturn<T>(fake: self, stub: stub)
+    }
+
+    class func stub<T>(_ stub: CatDelegateStub<T>) -> CatDelegateClassReturn<T> {
+        return CatDelegateClassReturn<T>(stub: stub)
+    }
+
+    func matchingMethods<T>(_ stub: CatDelegateStub<T>) -> [Any] {
+        let callsToMethod = methodCalls.filter { object in
+            if let theMethod = object as? CatDelegateStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+    
+    class func matchingMethods<T>(_ stub: CatDelegateStub<T>) -> [Any] {
+        let callsToMethod = classMethodCalls.filter { object in
+            if let theMethod = object as? CatDelegateStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+
+    func didCall<T>(method: CatDelegateStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+    class func didCall<T>(method: CatDelegateStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+}
+
+public enum CatMethod: Equatable, Hashable {
+    case numberOfLives()
+    case doStuff()
+    case doStuff_foo(Int)
+    case doClassMethod()
+    case name()
+    case catMeowed()
+    public var hashValue: Int {
+        get {
+            switch self {
+            case .numberOfLives:
+                return 0
+            case .doStuff:
+                return 1
+            case .doStuff_foo:
+                return 2
+            case .doClassMethod:
+                return 3
+            case .name:
+                return 4
+            case .catMeowed:
+                return 5
+            }
+        }
+    }
+}
+
+public func == (lhs: CatMethod, rhs: CatMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.numberOfLives(), .numberOfLives()): return true
+    case (.doStuff(), .doStuff()): return true
+    case (.doStuff_foo(let a1), .doStuff_foo(let b1)): return a1 == b1
+    case (.doClassMethod(), .doClassMethod()): return true
+    case (.name(), .name()): return true
+    case (.catMeowed(), .catMeowed()): return true
+
+    case (.numberOfLives, _): return false
+    case (.doStuff, _): return false
+    case (.doStuff_foo, _): return false
+    case (.doClassMethod, _): return false
+    case (.name, _): return false
+    case (.catMeowed, _): return false
+    }
+}
+struct CatStub<T>: Hashable, Equatable {
+    var method: CatMethod
+    var hashValue: Int {
+        return method.hashValue
+    }
+
+    init(method: CatMethod) {
+        self.method = method
+    }
+
+    public static func == (lhs: CatStub, rhs: CatStub) -> Bool {
+        return lhs.method == rhs.method
+    }
+    public static func numberOfLives() -> CatStub<Int> {
+        return CatStub<Int>(method: .numberOfLives())
+    }
+
+    public static func doStuff() -> CatStub<Int> {
+        return CatStub<Int>(method: .doStuff())
+    }
+
+    public static func doStuff(foo: Int) -> CatStub<Int?> {
+        return CatStub<Int?>(method: .doStuff_foo(foo))
+    }
+
+    public static func doClassMethod() -> CatStub<Int> {
+        return CatStub<Int>(method: .doClassMethod())
+    }
+
+    public static func name() -> CatStub<Any> {
+        return CatStub<Any>(method: .name())
+    }
+
+    public static func catMeowed() -> CatStub<Any> {
+        return CatStub<Any>(method: .catMeowed())
+    }
+
+}
+
+struct CatReturn<T> {
+    var fake: FakeCat
+    var stub: CatStub<T>
+
+    func andReturn(_ value: T) {
+        fake.setReturnFor(stub: stub, value: value)
+    }
+}
+
+struct CatClassReturn<T> {
+    var stub: CatStub<T>
+
+    func andReturn(_ value: T) {
+        FakeCat.classStubs[stub] = value
+    }
+}
+
+class FakeCat: Cat {
+    var stubs = [(Any,Any)]()
+    static var classStubs = [AnyHashable: Any]()
+    private var methodCalls = [Any]()
+    private static var classMethodCalls = [Any]()
+
+    func returnFor<T>(stub: CatStub<T>) -> Any? {
+        for tuple in stubs {
+            if let myStub = tuple.0 as? CatStub<T> {
+                if myStub == stub {
+                    return tuple.1
+                }
+            }
+        }
+        return nil
+    }
+
+    func setReturnFor<T>(stub: CatStub<T>, value: Any) {
+        stubs.append((stub, value))
+    }
+    override func numberOfLives() -> Int {
+        let stub = CatStub<Int>(method: .numberOfLives())
+        methodCalls.append(stub)
+        return returnFor(stub: stub) as! Int
+    }
+
+    override func doStuff() -> Int {
+        let stub = CatStub<Int>(method: .doStuff())
+        methodCalls.append(stub)
+        return returnFor(stub: stub) as! Int
+    }
+
+    override func doStuff(foo: Int) -> Int? {
+        let stub = CatStub<Int?>(method: .doStuff_foo(foo))
+        methodCalls.append(stub)
+        return returnFor(stub: stub) as! Int?
+    }
+
+    override class func doClassMethod() -> Int {
+        let stub = CatStub<Int>(method: .doClassMethod())
+        classMethodCalls.append(stub)
+        return classStubs[stub] as! Int
+    }
+
+    override func name(){
+        let stub = CatStub<Any>(method: .name())
+        methodCalls.append(stub)
+    }
+
+    override func catMeowed(){
+        let stub = CatStub<Any>(method: .catMeowed())
+        methodCalls.append(stub)
+    }
+
+    func stub<T>(_ stub: CatStub<T>) -> CatReturn<T> {
+        return CatReturn<T>(fake: self, stub: stub)
+    }
+
+    class func stub<T>(_ stub: CatStub<T>) -> CatClassReturn<T> {
+        return CatClassReturn<T>(stub: stub)
+    }
+
+    func matchingMethods<T>(_ stub: CatStub<T>) -> [Any] {
+        let callsToMethod = methodCalls.filter { object in
+            if let theMethod = object as? CatStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+    
+    class func matchingMethods<T>(_ stub: CatStub<T>) -> [Any] {
+        let callsToMethod = classMethodCalls.filter { object in
+            if let theMethod = object as? CatStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+
+    func didCall<T>(method: CatStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+    class func didCall<T>(method: CatStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+}
+

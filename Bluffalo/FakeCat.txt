@@ -1,0 +1,140 @@
+
+public enum CatMethod: Equatable, Hashable {
+    case numberOfLives()
+    case doStuff()
+    case doStuff_foo(Int)
+    case doClassMethod()
+    case name()
+    public var hashValue: Int {
+        get {
+            switch self {
+            case .numberOfLives:
+                return 0
+            case .doStuff:
+                return 1
+            case .doStuff_foo:
+                return 2
+            case .doClassMethod:
+                return 3
+            case .name:
+                return 4
+            }
+        }
+    }
+}
+
+public func == (lhs: CatMethod, rhs: CatMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.numberOfLives(), .numberOfLives()): return true
+    case (.doStuff(), .doStuff()): return true
+    case (.doStuff_foo(let a1), .doStuff_foo(let b1)): return a1 == b1
+    case (.doClassMethod(), .doClassMethod()): return true
+    case (.name(), .name()): return true
+
+    case (.numberOfLives, _): return false
+    case (.doStuff, _): return false
+    case (.doStuff_foo, _): return false
+    case (.doClassMethod, _): return false
+    case (.name, _): return false
+    }
+}
+public func methodsMatching(lhs: CatMethod, rhs: CatMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.numberOfLives, .numberOfLives): return true
+    case (.doStuff, .doStuff): return true
+    case (.doStuff_foo, .doStuff_foo): return true
+    case (.doClassMethod, .doClassMethod): return true
+    case (.name, .name): return true
+
+    case (.numberOfLives, _): return false
+    case (.doStuff, _): return false
+    case (.doStuff_foo, _): return false
+    case (.doClassMethod, _): return false
+    case (.name, _): return false
+    }
+}
+
+class FakeCat: Cat {
+    private var functionsAndArgumentsCalled: [CatMethod] = []
+    private static var classFunctionsAndArgumentsCalled: [CatMethod] = []
+
+    private var stubbedValues = [CatMethod:Any]()
+    private var stubbedBlocks = [CatMethod: () -> Any]()
+    static private var classStubbedValues = [CatMethod:Any]()
+    static private var classStubbedBlocks = [CatMethod: () -> Any]()
+
+    func stub(method: CatMethod, andDo block: @escaping () -> Any) {
+        stubbedBlocks[method] = block
+    }
+
+    func stub(method: CatMethod, andReturn value: Any) {
+        stubbedValues[method] = value
+    }
+    class func stub(method: CatMethod, andDo block: @escaping () -> Any) {
+        classStubbedBlocks[method] = block
+    }
+
+    class func stub(method: CatMethod, andReturn value: Any) {
+        classStubbedValues[method] = value
+    }
+
+    private func stubbedReturnValue(method: CatMethod) -> Any {
+        if let block = stubbedBlocks[method] {
+            return block()
+        }
+        return stubbedValues[method]!
+    }
+
+    private class func classStubbedReturnValue(method: CatMethod) -> Any {
+        if let block = classStubbedBlocks[method] {
+            return block()
+        }
+        return classStubbedValues[method]!
+    }
+
+    func functionsMatchingMethodTypeAndArguments(forMethod: CatMethod) -> [CatMethod] {
+        return functionsAndArgumentsCalled.filter { (method: CatMethod) -> Bool in
+            return method == forMethod
+        }
+    }
+
+    class func functionsMatchingMethodTypeAndArguments(forMethod: CatMethod) -> [CatMethod] {
+        return classFunctionsAndArgumentsCalled.filter { (method: CatMethod) -> Bool in
+            return method == forMethod
+        }
+    }
+
+    func functionsMatchingMethod(forMethod: CatMethod) -> [CatMethod] {
+        return functionsAndArgumentsCalled.filter { (method: CatMethod) -> Bool in
+            return methodsMatching(lhs: method, rhs: forMethod)
+        }
+    }
+
+    internal func didCall(method: CatMethod) -> Bool {
+        return functionsMatchingMethodTypeAndArguments(forMethod: method).count > 0
+    }
+
+    override func numberOfLives() -> Int {
+        functionsAndArgumentsCalled.append(CatMethod.numberOfLives())
+        return stubbedReturnValue(method: .numberOfLives()) as! Int
+    }
+
+    override func doStuff() -> Int {
+        functionsAndArgumentsCalled.append(CatMethod.doStuff())
+        return stubbedReturnValue(method: .doStuff()) as! Int
+    }
+
+    override func doStuff(foo: Int) -> Int? {
+        functionsAndArgumentsCalled.append(CatMethod.doStuff_foo(foo))
+        return stubbedReturnValue(method: .doStuff_foo(foo)) as? Int
+    }
+
+    override class func doClassMethod() -> Int {
+        classFunctionsAndArgumentsCalled.append(CatMethod.doClassMethod())
+        return classStubbedReturnValue(method: .doClassMethod()) as! Int
+    }
+
+    override func name() {
+        functionsAndArgumentsCalled.append(CatMethod.name())
+    }
+}

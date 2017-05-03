@@ -1,0 +1,34 @@
+import Foundation
+
+protocol CatDelegate: class {
+    func catMeowed()
+}
+
+class Cat: CatDelegate {
+    var dog: Int = 4
+
+    func numberOfLives() -> Int {
+        return 9;
+    }
+
+    func doStuff() -> Int {
+        print("stuff")
+        return 4;
+    }
+
+    func doStuff(foo: Int) -> Int? {
+        return 9
+    }
+
+    class func doClassMethod() -> Int {
+        return 5
+    }
+    
+    func name() {
+
+    }
+
+    func catMeowed() {
+
+    }
+}

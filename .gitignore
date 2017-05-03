@@ -1,0 +1,4 @@
+build/
+.bundle/
+Bluffalo/project.xcworkspace/xcuserdata
+Bluffalo/xcuserdata

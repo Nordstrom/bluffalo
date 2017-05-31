@@ -5,6 +5,9 @@ protocol CatDelegate: class {
 }
 
 class Cat: CatDelegate {
+
+    open class var getACat: Cat { get }
+
     var dog: Int = 4
 
     func numberOfLives() -> Int {

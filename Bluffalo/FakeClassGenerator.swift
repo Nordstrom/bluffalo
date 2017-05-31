@@ -35,6 +35,7 @@ class FakeClassGenerator {
             if method.name.contains("init(") {
                 return false
             }
+            
             return true
         }
         
@@ -43,7 +44,6 @@ class FakeClassGenerator {
         }
         
         var fakeString = ""
-        
         
         fakeString += generateEquatableEnumerationForMethods()
         fakeString += "\n"
@@ -82,6 +82,7 @@ class FakeClassGenerator {
                     classString += " -> " + returnType + " "
                     stubGeneric = returnType
                 }
+                
                 classString += "{\n"
                 
                 var parameters = "nil"
@@ -92,6 +93,7 @@ class FakeClassGenerator {
                     }
                     parameters += "]"
                 }
+                
                 let methodEnum = generateEnumWithPassedInParameters(forMethod: method)
                 classString += tab + tab + "let stub = \(classStructure.className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
                 
@@ -103,7 +105,6 @@ class FakeClassGenerator {
                 default:
                     break
                 }
-                
                 
                 if let returnType = method.returnType {
                     switch method.kind {
@@ -119,7 +120,6 @@ class FakeClassGenerator {
                 classString += tab + "}\n"
                 classString += "\n"
             }
-            
         }
         
         classString += tab + "func stub<T>(_ stub: \(classStructure.className)Stub<T>) -> \(classStructure.className)Return<T> {\n"
@@ -160,8 +160,10 @@ class FakeClassGenerator {
             for arg in method.externalArgumentNames {
                 methodSignature += "_" + arg
             }
+            
             return methodSignature
         }
+        
         return nil
     }
     
@@ -203,7 +205,6 @@ class FakeClassGenerator {
         text += tab + tab + "}\n"
         text += tab + "}\n"
         
-        
         text += "}\n"
         return text
     }
@@ -238,6 +239,7 @@ class FakeClassGenerator {
                         text += "let b\(i)"
                     }
                 }
+                
                 text += ")): return "
                 
                 if numberOfArguments > 0 {
@@ -275,8 +277,10 @@ class FakeClassGenerator {
                 }
             }
         }
+        
         text += "\(tab)}\n"
         text += "}"
+        
         return text
     }
     
@@ -355,6 +359,7 @@ class FakeClassGenerator {
         }
         
         stubString += "}\n"
+        
         return stubString
     }
     
@@ -371,6 +376,7 @@ class FakeClassGenerator {
                 text += "\(argumentName)"
                 needsComma = true
             }
+            
             text += ")"
             
             return text

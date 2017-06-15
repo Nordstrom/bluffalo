@@ -8,6 +8,12 @@ It generates a subclass of whatever class you want with some extra methods and p
 - Because this relies on subclassing, this will not work for stubs.
 - Properties cannot be stubbed yet.
 
+# Installing
+
+```bash
+$ brew install https://raw.githubusercontent.com/Nordstrom/bluffalo/master/Bluffalo.rb
+```
+
 # Usage
 
 ## Generating a fake

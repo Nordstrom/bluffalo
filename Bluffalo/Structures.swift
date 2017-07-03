@@ -24,16 +24,16 @@ enum ClassKind: String {
     case Unknown
 }
 
-// TODO: Why are these vars? Change to `let` if possible.
+// FIXME: Rename to MethodStruct to be consistent with naming? 
 struct Method {
-    var name: String
-    var nameWithExternalNames: String = ""
-    var kind: MethodKind = .Instance
-    var accessibility: MethodAccessibility = .Private
-    var argumentNames: [String] = []
-    var externalArgumentNames: [String] = []
-    var argumentTypes: [String] = []
-    var returnType: String?
+    let name: String
+    let nameWithExternalNames: String
+    let kind: MethodKind
+    let accessibility: MethodAccessibility
+    let argumentNames: [String]
+    let externalArgumentNames: [String]
+    let argumentTypes: [String]
+    let returnType: String?
 }
 
 struct ClassStruct {

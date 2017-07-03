@@ -1,3 +1,8 @@
+/**
+ Responsible for parsing SourceKitten dictionaries into app objects which the generators can reason with.
+ 
+ */
+
 import Foundation
 
 // MARK - Internal functions
@@ -49,7 +54,6 @@ internal func parseClass(json: [String: AnyObject], fileContents: String) -> Cla
     })
     
     return ClassStruct(classKind: classKind, className: className, methods: methods)
-    
 }
 
 // MARK - Private functions
@@ -122,6 +126,9 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
             methodSignature = methodSignature.replacingOccurrences(of: argumentToReplace, with: argumentToUse)
         }
         
+        // Return type
+        let returnType = returnTypeFromMethod(json: methodStructureDict, fileContents: fileContents)
+        
         return Method(
             name: methodName,
             nameWithExternalNames: methodSignature,
@@ -130,7 +137,7 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
             argumentNames: argumentNames,
             externalArgumentNames: externalArgumentNamesWithInternalBackup,
             argumentTypes: argumentTypes,
-            returnType: returnTypeFromMethodDict(dict: methodStructureDict, fileContents: fileContents)
+            returnType: returnType
         )
     }
     
@@ -156,9 +163,9 @@ private func getExternalArgumentsFromMethodName(name: String) -> [String]? {
     return externalArgumentNames
 }
 
-private func returnTypeFromMethodDict(dict : [String: AnyObject], fileContents : String) -> String? {
-    let start = dict["key.offset"] as! Int
-    let length = dict["key.length"] as! Int
+private func returnTypeFromMethod(json: [String: AnyObject], fileContents : String) -> String? {
+    let start = json["key.offset"] as! Int
+    let length = json["key.length"] as! Int
     
     let startIndex = fileContents.index(fileContents.startIndex, offsetBy: start)
     

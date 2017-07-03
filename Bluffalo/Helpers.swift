@@ -33,7 +33,7 @@ func getJSONForFilePath(filepath:String) -> [String:AnyObject] {
 func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyObject]] {
     var classStructures: [[String:AnyObject]] = json["key.substructure"] as! [[String:AnyObject]]
     classStructures = classStructures.filter({ (possibleClass) -> Bool in
-        print(possibleClass["key.name"])
+        print(possibleClass["key.name"] ?? "key.name not found")
         
         if let _ = ClassKind(rawValue: possibleClass["key.kind"]! as! String) , possibleClass["key.substructure"] != nil {
             return true
@@ -67,16 +67,11 @@ func createFakeClassForFile(filePath: String) ->String {
     return classText
 }
 
-func writeStringToFile(stringToWrite: String, outputDirectory: String, outputFile outputFilename: String) {
-    
+func write(code: String, to filepath: String) {
     do {
-        var outputFile = outputFilename
-        if outputFile.characters.count == 0 {
-            outputFile = "Fakes.swift"
-        }
-        let file: String = outputDirectory + outputFile
-        let fileURL = URL(fileURLWithPath: file)
-        try stringToWrite.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
+        // TODO: Make `filepath` point to `Fakes.swift` if `filepath` not provided.
+        let fileURL = URL(fileURLWithPath: filepath)
+        try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
         print("Add \(fileURL.absoluteURL) to your project")
     }
     catch {

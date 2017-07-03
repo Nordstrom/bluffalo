@@ -24,7 +24,7 @@ class FileGenerator {
         code += testableImport(module)
 
         // Generate source code.
-        code += createFakeClassForFile(filePath: file) + "\n"
+        code += createFakeClassForFile(filepath: file) + "\n"
     
         write(code: code, to: outFile)
     }

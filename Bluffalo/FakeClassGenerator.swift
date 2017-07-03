@@ -32,6 +32,8 @@ class FakeClassGenerator {
         self.classStructure = classStruct
     }
     
+    // MARK - Public functions
+    
     func makeFakeClass() -> String {
         let className: String = classStructure.className
         classStructure.methods = classStructure.methods.filter { (method: Method) -> Bool in
@@ -154,6 +156,8 @@ class FakeClassGenerator {
         
         return fakeString
     }
+    
+    // MARK - Private functions
     
     private func enumNameForMethod(method: Method) -> String? {
         let startOfStringToRemove = method.name.range(of: "(")

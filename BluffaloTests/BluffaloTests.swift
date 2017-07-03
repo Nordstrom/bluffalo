@@ -4,7 +4,7 @@ import XCTest
 
 class BluffaloTests: XCTestCase {
     
-    func filePath(name: String) -> String {
+    func resourceFilepath(for name: String) -> String {
         let filePath = Bundle(for: type(of: self)).path(forResource: name, ofType: "txt")!
         return filePath
     }
@@ -23,16 +23,11 @@ class BluffaloTests: XCTestCase {
     }
     
     func classStructForFile(_ fileName: String) -> [ClassStruct] {
-        let file = loadSwiftFile(at: filePath(name: fileName))
-        let classDictionaryArray = getClassDictionaries(json: file.json)
+        let filepath = resourceFilepath(for: fileName)
+        let file = loadSwiftFile(at: filepath)
+        let classes: [ClassStruct] = parse(file: file)
         
-        var classStructureArray: [ClassStruct] = []
-        for  dictionary in classDictionaryArray {
-            let classStructure = Parser(json: dictionary).parse(fileContents: file.contents)
-            classStructureArray.append(classStructure)
-        }
-        
-        return classStructureArray
+        return classes
     }
     
     func testGenericGenerateClass() {
@@ -43,7 +38,8 @@ class BluffaloTests: XCTestCase {
             finalClassString += classString + "\n"
         }
         
-        let expectedClassString = stringForFile(filePath(name: "FakeCat"))
+        let filepath = resourceFilepath(for: "FakeCat")
+        let expectedClassString = stringForFile(filepath)
         XCTAssertNil(compareClassStrings(actual: finalClassString, expected: expectedClassString))
     }
     

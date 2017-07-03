@@ -13,7 +13,6 @@
 		0720921E1F0AC09B00A2E089 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720921D1F0AC09B00A2E089 /* Arguments.swift */; };
 		0D7DFAC41E4BD0580096D4E8 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */; };
 		0D7DFAC51E4BDB0F0096D4E8 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */; };
-		0D884B8D1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */; };
 		0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7551C1E391ACE00ABC1CD /* Makefile */; };
 		A7D50AAB1D8212200049D633 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D50AAA1D8212200049D633 /* main.swift */; };
 		A7E9DEA11D99D1F9004406D7 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
@@ -47,7 +46,6 @@
 		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
 		0720921D1F0AC09B00A2E089 /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileGenerator.swift; sourceTree = "<group>"; };
-		0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorApp.swift; sourceTree = "<group>"; };
 		0DB7551C1E391ACE00ABC1CD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		A7D50AA71D8212200049D633 /* Bluffalo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bluffalo; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D50AAA1D8212200049D633 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 				A7D50AAA1D8212200049D633 /* main.swift */,
 				A7E9DEA01D99D1F9004406D7 /* Structures.swift */,
 				0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */,
-				0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */,
 				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
 				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
 				BBA3EC091DF2974D0012E5E2 /* Helpers.swift */,
@@ -262,7 +259,6 @@
 			files = (
 				0720921E1F0AC09B00A2E089 /* Arguments.swift in Sources */,
 				0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */,
-				0D884B8D1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */,
 				BBA3EC0A1DF2974D0012E5E2 /* Helpers.swift in Sources */,
 				BB67EFE71DF27366009CA1B0 /* Parser.swift in Sources */,
 				0720921B1F0AB7C000A2E089 /* Option.swift in Sources */,

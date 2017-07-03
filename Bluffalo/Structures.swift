@@ -1,6 +1,5 @@
 import Foundation
 
-//Enums
 enum MethodKind: String {
     case Instance = "source.lang.swift.decl.function.method.instance"
     case Class = "source.lang.swift.decl.function.method.class"
@@ -25,8 +24,6 @@ enum ClassKind: String {
     case Unknown
 }
 
-
-//Structures
 struct Method {
     var name: String
     var nameWithExternalNames: String = ""

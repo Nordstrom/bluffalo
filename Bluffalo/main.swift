@@ -24,6 +24,12 @@ let args = Arguments(
     imports: importsOption.value
 )
 
-let application = GeneratorApp()
-let exitCode = application.main(arguments: args)
-exit(exitCode)
+do {
+    let fileGenerator = FileGenerator()
+    try fileGenerator.generate(file: args.file, outFile: args.outputFile, module: args.module, imports: args.importList())
+}
+catch {
+    exit(EXIT_FAILURE)
+}
+
+exit(EXIT_SUCCESS)

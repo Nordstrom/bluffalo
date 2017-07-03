@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
-		07079B1C1F0AF44C00FEF0FA /* FakeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeGenerator.swift */; };
+		07079B1C1F0AF44C00FEF0FA /* FakeFileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */; };
 		07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */; };
 		07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFE61DF27366009CA1B0 /* Parser.swift */; };
 		07079B201F0AF45600FEF0FA /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720921D1F0AC09B00A2E089 /* Arguments.swift */; };
@@ -19,7 +19,7 @@
 		0720921B1F0AB7C000A2E089 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092181F0AB7C000A2E089 /* Option.swift */; };
 		0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092191F0AB7C000A2E089 /* StringExtensions.swift */; };
 		0720921E1F0AC09B00A2E089 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720921D1F0AC09B00A2E089 /* Arguments.swift */; };
-		0D7DFAC41E4BD0580096D4E8 /* FakeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeGenerator.swift */; };
+		0D7DFAC41E4BD0580096D4E8 /* FakeFileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */; };
 		0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7551C1E391ACE00ABC1CD /* Makefile */; };
 		A7D50AAB1D8212200049D633 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D50AAA1D8212200049D633 /* main.swift */; };
 		A7E9DEA11D99D1F9004406D7 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
@@ -60,7 +60,7 @@
 		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
 		0720921D1F0AC09B00A2E089 /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		07DE8D7D1F0AEC3400B19666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D7DFAC31E4BD0580096D4E8 /* FakeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeGenerator.swift; sourceTree = "<group>"; };
+		0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeFileGenerator.swift; sourceTree = "<group>"; };
 		0DB7551C1E391ACE00ABC1CD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		A7D50AA71D8212200049D633 /* Bluffalo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bluffalo; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D50AAA1D8212200049D633 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 			children = (
 				0720921D1F0AC09B00A2E089 /* Arguments.swift */,
 				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
-				0D7DFAC31E4BD0580096D4E8 /* FakeGenerator.swift */,
+				0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */,
 				BBA3EC091DF2974D0012E5E2 /* Helpers.swift */,
 				07DE8D7D1F0AEC3400B19666 /* Info.plist */,
 				A7D50AAA1D8212200049D633 /* main.swift */,
@@ -285,7 +285,7 @@
 				0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */,
 				0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */,
 				A7D50AAB1D8212200049D633 /* main.swift in Sources */,
-				0D7DFAC41E4BD0580096D4E8 /* FakeGenerator.swift in Sources */,
+				0D7DFAC41E4BD0580096D4E8 /* FakeFileGenerator.swift in Sources */,
 				07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +300,7 @@
 				07079B251F0AF5B100FEF0FA /* Helpers.swift in Sources */,
 				07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */,
 				07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */,
-				07079B1C1F0AF44C00FEF0FA /* FakeGenerator.swift in Sources */,
+				07079B1C1F0AF44C00FEF0FA /* FakeFileGenerator.swift in Sources */,
 				07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

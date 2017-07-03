@@ -1,3 +1,8 @@
+/**
+ Responsible for generating fake classes.
+ 
+ */
+
 import Foundation
 
 private struct Constant {
@@ -19,38 +24,60 @@ class FakeClassGenerator {
     private let tab = "    "
     private let classFunctionsAndArgumentsCalledString: String = "classFunctionsAndArgumentsCalled"
     private let functionsAndArgumentsCalledString: String = "functionsAndArgumentsCalled"
-        
+    
+    private let classStruct: ClassStruct
+    
+    private var className: String {
+        return classStruct.className
+    }
+    
+    private var classKind: ClassKind {
+        return classStruct.classKind
+    }
+    
+    private var methods: [Method] {
+        return classStruct.methods
+    }
+    
+    private var enumName: String {
+        return classStruct.enumName
+    }
+    
+    init(classStruct: ClassStruct) {
+        self.classStruct = classStruct
+    }
+    
     // MARK - Public functions
     
-    func makeFakeClass(classStruct: ClassStruct) -> String {
-        guard classStruct.methods.count > 0 else {
+    func makeFakeClass() -> String {
+        guard methods.count > 0 else {
             return ""
         }
         
-        let fakeHelpers = generateFakeHelpers(classStruct: classStruct)
-        let fakeClass = generateFakeClass(classStruct: classStruct)
+        let fakeHelpers = generateFakeHelpers()
+        let fakeClass = generateFakeClass()
         
         return fakeHelpers + fakeClass
     }
     
     // MARK - Private functions
     
-    private func generateFakeHelpers(classStruct: ClassStruct) -> String {
+    private func generateFakeHelpers() -> String {
         var code: String = ""
-        code += generateEquatableEnumerationForMethods(enumName: classStruct.enumName, methods: classStruct.methods)
+        code += generateEquatableEnumerationForMethods()
         code += "\n"
-        code += generateEquatableMethod(enumName: classStruct.enumName, methods: classStruct.methods)
+        code += generateEquatableMethod()
         code += "\n"
-        code += generateStub(className: classStruct.className, methods: classStruct.methods)
+        code += generateStub()
         code += "\n"
-        code += generateReturn(className: classStruct.className)
+        code += generateReturn()
         code += "\n"
 
         return code
     }
     
-    private func generateFakeClass(classStruct: ClassStruct) -> String {
-        var code = "class Fake\(classStruct.className): \(classStruct.className) {\n"
+    private func generateFakeClass() -> String {
+        var code = "class Fake\(className): \(className) {\n"
         
         code += tab + "var stubs = [(Any,Any)]()\n"
         code += tab + "static var classStubs = [AnyHashable: Any]()\n"
@@ -58,15 +85,15 @@ class FakeClassGenerator {
         code += tab + "private static var classMethodCalls = [Any]()\n"
         code += "\n"
         
-        code += generateStubHelpers(className: classStruct.className)
+        code += generateStubHelpers()
         
-        for method in classStruct.methods {
+        for method in methods {
             if let _ = enumNameForMethod(method: method) {
                 let methodKindString = stringForMethodKind(methodKind: method.kind)
                 
                 var overrideString: String = ""
                 
-                if classStruct.classKind == .ClassKind {
+                if classKind == .ClassKind {
                     overrideString = "override"
                 }
                 
@@ -90,7 +117,7 @@ class FakeClassGenerator {
                 }
                 
                 let methodEnum = generateEnumWithPassedInParameters(for: method)
-                code += tab + tab + "let stub = \(classStruct.className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
+                code += tab + tab + "let stub = \(className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
                 
                 switch method.kind {
                 case .Class:
@@ -117,24 +144,24 @@ class FakeClassGenerator {
             }
         }
         
-        code += tab + "func stub<T>(_ stub: \(classStruct.className)Stub<T>) -> \(classStruct.className)Return<T> {\n"
-        code += tab + tab + "return \(classStruct.className)Return<T>(fake: self, stub: stub)\n"
+        code += tab + "func stub<T>(_ stub: \(className)Stub<T>) -> \(className)Return<T> {\n"
+        code += tab + tab + "return \(className)Return<T>(fake: self, stub: stub)\n"
         code += tab + "}\n"
         code += "\n"
         
-        code += tab + "class func stub<T>(_ stub: \(classStruct.className)Stub<T>) -> \(classStruct.className)ClassReturn<T> {\n"
-        code += tab + tab + "return \(classStruct.className)ClassReturn<T>(stub: stub)\n"
+        code += tab + "class func stub<T>(_ stub: \(className)Stub<T>) -> \(className)ClassReturn<T> {\n"
+        code += tab + tab + "return \(className)ClassReturn<T>(stub: stub)\n"
         code += tab + "}\n"
         code += "\n"
         
-        code += generateMatchingMethods(className: classStruct.className)
+        code += generateMatchingMethods()
         
-        code += tab + "func didCall<T>(method: \(classStruct.className)Stub<T>) -> Bool {\n"
+        code += tab + "func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
         code += tab + tab + "return matchingMethods(method).count > 0\n"
         code += tab + "}\n"
         code += "\n"
         
-        code += tab + "class func didCall<T>(method: \(classStruct.className)Stub<T>) -> Bool {\n"
+        code += tab + "class func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
         code += tab + tab + "return matchingMethods(method).count > 0\n"
         code += tab + "}\n"
         code += "\n" // FIXME: Why the extra newline?
@@ -158,10 +185,10 @@ class FakeClassGenerator {
         return nil
     }
     
-    private func generateEquatableEnumerationForMethods(enumName: String, methods: [Method]) -> String {
+    private func generateEquatableEnumerationForMethods() -> String {
         var code: String = "public enum \(enumName): Equatable, Hashable {\n"
+        
         for method: Method in methods {
-            
             if let methodName = enumNameForMethod(method: method) {
                 code += "\(tab)case " + methodName
                 code += "("
@@ -200,7 +227,7 @@ class FakeClassGenerator {
         return code
     }
     
-    private func generateEquatableMethod(enumName: String, methods: [Method]) -> String {
+    private func generateEquatableMethod() -> String {
         var code: String = ""
         code += "public func == (lhs: \(enumName), rhs: \(enumName)) -> Bool {\n"
         code += "\(tab)switch (lhs, rhs) {\n"
@@ -275,7 +302,7 @@ class FakeClassGenerator {
         return code
     }
     
-    private func generateMatchingMethods(className: String) -> String {
+    private func generateMatchingMethods() -> String {
         var code: String = ""
         code += tab + "func matchingMethods<T>(_ stub: \(className)Stub<T>) -> [Any] {\n"
         code += tab + tab + "let callsToMethod = methodCalls.filter { object in\n"
@@ -304,7 +331,7 @@ class FakeClassGenerator {
         return code
     }
     
-    private func generateStub(className: String, methods: [Method]) -> String {
+    private func generateStub() -> String {
         var code: String = ""
         code = "struct \(className)Stub<T>: Hashable, Equatable {\n"
         code += tab + "var method: \(className)Method\n"
@@ -376,7 +403,7 @@ class FakeClassGenerator {
         return text
     }
     
-    private func generateReturn(className: String) -> String {
+    private func generateReturn() -> String {
         var code: String = ""
         code += "struct \(className)Return<T> {\n"
         code += tab + "var fake: Fake" + className + "\n"
@@ -399,7 +426,7 @@ class FakeClassGenerator {
         return code
     }
     
-    private func generateStubHelpers(className: String) -> String {
+    private func generateStubHelpers() -> String {
         var code: String = ""
         code += tab + "func returnFor<T>(stub: \(className)Stub<T>) -> Any? {\n"
         code += tab + tab + "for tuple in stubs {\n"

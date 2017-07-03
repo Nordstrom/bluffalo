@@ -32,7 +32,7 @@ class BluffaloTests: XCTestCase {
         let classStructArray: [ClassStruct] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {
-            let classString = FakeClassGenerator().makeFakeClass(classStruct: classStruct)
+            let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
             finalClassString += classString + "\n"
         }
         

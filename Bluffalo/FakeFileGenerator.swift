@@ -1,3 +1,8 @@
+/**
+ Responsible for composing (generating) the entire fake file.
+ 
+ */
+
 import Foundation
 
 /**
@@ -75,8 +80,8 @@ internal func createFakeClassForFile(filepath: String) -> String {
     let classes: [ClassStruct] = parse(file: file)
     
     let code = classes.reduce("") { (code, classStruct) -> String in
-        let generator = FakeClassGenerator()
-        return code + generator.makeFakeClass(classStruct: classStruct) + "\n"
+        let generator = FakeClassGenerator(classStruct: classStruct)
+        return code + generator.makeFakeClass() + "\n"
     }
     
     return code

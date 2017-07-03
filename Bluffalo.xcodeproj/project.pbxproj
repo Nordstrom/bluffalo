@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
+		07079B1C1F0AF44C00FEF0FA /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */; };
+		07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */; };
+		07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFE61DF27366009CA1B0 /* Parser.swift */; };
+		07079B201F0AF45600FEF0FA /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720921D1F0AC09B00A2E089 /* Arguments.swift */; };
+		07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
+		07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
+		07079B251F0AF5B100FEF0FA /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA3EC091DF2974D0012E5E2 /* Helpers.swift */; };
 		0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092171F0AB7C000A2E089 /* CommandLine.swift */; };
 		0720921B1F0AB7C000A2E089 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092181F0AB7C000A2E089 /* Option.swift */; };
 		0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092191F0AB7C000A2E089 /* StringExtensions.swift */; };
@@ -46,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07079B211F0AF50200FEF0FA /* SwiftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftFile.swift; sourceTree = "<group>"; };
 		072092171F0AB7C000A2E089 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommandLine.swift; path = Vendor/CommandLineKit/CommandLine.swift; sourceTree = "<group>"; };
 		072092181F0AB7C000A2E089 /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Option.swift; path = Vendor/CommandLineKit/Option.swift; sourceTree = "<group>"; };
 		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
@@ -158,6 +167,7 @@
 				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
 				BBA3EC091DF2974D0012E5E2 /* Helpers.swift */,
 				0720921D1F0AC09B00A2E089 /* Arguments.swift */,
+				07079B211F0AF50200FEF0FA /* SwiftFile.swift */,
 			);
 			path = Bluffalo;
 			sourceTree = "<group>";
@@ -276,6 +286,7 @@
 				0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */,
 				A7D50AAB1D8212200049D633 /* main.swift in Sources */,
 				0D7DFAC41E4BD0580096D4E8 /* FileGenerator.swift in Sources */,
+				07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +295,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB67EFDA1DF26C81009CA1B0 /* BluffaloTests.swift in Sources */,
+				07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */,
+				07079B201F0AF45600FEF0FA /* Arguments.swift in Sources */,
+				07079B251F0AF5B100FEF0FA /* Helpers.swift in Sources */,
+				07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */,
+				07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */,
+				07079B1C1F0AF44C00FEF0FA /* FileGenerator.swift in Sources */,
+				07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +428,6 @@
 		BB67EFDD1DF26C81009CA1B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = BluffaloTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -418,14 +435,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bluffalo";
 			};
 			name = Debug;
 		};
 		BB67EFDE1DF26C81009CA1B0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = BluffaloTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -433,7 +448,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bluffalo";
 			};
 			name = Release;
 		};

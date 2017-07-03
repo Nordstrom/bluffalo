@@ -1,7 +1,5 @@
 import XCTest
 
-@testable import Bluffalo
-
 class BluffaloTests: XCTestCase {
     
     func resourceFilepath(for name: String) -> String {

@@ -1,10 +1,5 @@
 import Foundation
 
-internal struct SwiftFile {
-    let contents: String
-    let json: [String: AnyObject]
-}
-
 /**
  Load a Swift file using SourceKitten.
  

@@ -250,7 +250,7 @@ class FakeClassGenerator {
                         }
                         
                         if method.argumentTypes[i - 1].contains("AnyObject") {
-                            text += equalityFunction + "(a\(i), b: b\(i))"
+                            text += Constant.equalityFunction + "(a\(i), b: b\(i))"
                         }
                         else {
                             text += "a\(i) == b\(i)"

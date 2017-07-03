@@ -4,75 +4,140 @@ import Foundation
 // Make a parameterized WriteOneFake() method.
 // Add support for new fake:source sytax in list file
 
-let tab: String = "    "
-let newLine: String = "\n"
-let equalityFunction = "checkEquality"
+struct BluffaloError: Error {
+    let description: String
+}
+
+struct Constant {
+    static let tab: String = "    "
+    static let newLine: String = "\n"
+    static let equalityFunction = "checkEquality"
+}
 
 var contentsOfFile: String?
 
 class FileGenerator {
-    var listOfFilesFile = ""
+    var listOfFilesFile: String?
     var outputDirectory = ""
-    var testableModule = ""
-    var file = ""
+    var testableModule: String?
+    var file: String?
     var outputFile = ""
     var listOfImports = ""
 
-    func generate() -> Int {
-        var fakeClasses = ""
+    func generate() throws {
+        var code = ""
 
-        // Generate command line comment
-        fakeClasses += "// Copy and paste the following command to regenerate this fake \n"
-        fakeClasses += "// bluffalo -file \(file) -outputFile \(outputFile) -module \(testableModule) \n\n"
-        
-        let imports = getImportsForFile(path: file)
-        for importString in imports {
-            fakeClasses += importString + "\n"
-        }
-        fakeClasses += "\n"
+        // Imports
+        code += imports()
         
         // Additional imports
-        if listOfImports.characters.count > 0 {
-            let importNames:[String] = listOfImports.components(separatedBy: ",")
-            importNames.forEach({ (importName: String) in
-                fakeClasses += "import \(importName)\(newLine)"
-            })
-            
-            fakeClasses += newLine
-        }
-
-        //Testable module includes
-        if testableModule.characters.count > 0 {
-            fakeClasses += "@testable import \(testableModule)\(newLine)"
-            fakeClasses += newLine
-        }
+        code += additionalImports()
         
-        if listOfFilesFile.characters.count > 0 {
-            var listOfFilePaths = ""
-            do {
-                listOfFilePaths = try String(contentsOfFile: listOfFilesFile, encoding: .utf8)
-            }
-            catch {
-                print("Error trying to get contents of file: \(listOfFilesFile)")
-                exit(1)
-            }
+        // Testable module imports
+        code += testableImports()
+        
+        // Generate source code
+        var filePaths: [String]
+        if let tmpFakeFiles = try? filesToFake(), let fakeFiles = tmpFakeFiles {
+            filePaths = fakeFiles
             
-            let listOfPaths: [String] = listOfFilePaths.characters.split(separator: "\n").map(String.init)
-            print("File Paths To Fake: \(listOfPaths)")
+            // TODO: Add command line comment at the top for multi-file gens.
+        }
+        else if let file = file {
+            filePaths = [file]
             
-            for filePath: String in listOfPaths {
-                fakeClasses += createFakeClassForFile(filePath: filePath) + newLine
-            }
-            
-            writeStringToFile(stringToWrite: fakeClasses, outputDirectory: outputDirectory, outputFile:outputFile)
-            
+            // Add CLI command at top of source file.
+            code = "// Copy and paste the following command to regenerate this fake\(Constant.newLine)" +
+                   "// bluffalo -file \(file) -outputFile \(outputFile) \(moduleParameter())\(Constant.newLine)\(Constant.newLine)" +
+                   code
         }
         else {
-            fakeClasses += createFakeClassForFile(filePath: file)
-            
-            writeStringToFile(stringToWrite: fakeClasses, outputDirectory: outputDirectory, outputFile: outputFile)
+            throw BluffaloError(description: "Either the `file` or `listOfFiles` parameter must be set with path to fake files.")
         }
         
-        return 0
+        for filePath: String in filePaths {
+            code += createFakeClassForFile(filePath: filePath) + Constant.newLine
+        }
+        
+        writeStringToFile(stringToWrite: code, outputDirectory: outputDirectory, outputFile: outputFile)        
+    }
+    
+    /**
+     Returns a list of Swift file paths which should be faked.
+     */
+    private func filesToFake() throws -> [String]? {
+        guard let filePath = listOfFilesFile, filePath.characters.count > 0 else {
+            return nil
+        }
+        
+        var listOfFilePaths = ""
+        do {
+            listOfFilePaths = try String(contentsOfFile: filePath, encoding: .utf8)
+        }
+        catch {
+            throw BluffaloError(description: "Error trying to get contents of file: \(filePath)")
+        }
+        
+        let listOfPaths: [String] = listOfFilePaths.characters.split(separator: "\n").map(String.init)
+        
+        return listOfPaths.flatMap({ (path) -> String? in
+            path.trimmingCharacters(in: NSCharacterSet.whitespaces)
+        })
+    }
+    
+    /**
+     Returns the `-module` parameter if module(s) were provided.
+     */
+    private func moduleParameter() -> String {
+        // TODO: Refactor this guard logic into a computed property (?)
+        guard let modules = testableModule, modules.characters.count > 0 else {
+            return ""
+        }
+
+        return "-module \(modules)"
+    }
+    
+    /**
+     Returns all testable imports.
+     */
+    private func testableImports() -> String {
+        guard let testModules = testableModule, testModules.characters.count > 0 else {
+            return ""
+        }
+        
+        let code: String = testModules.components(separatedBy: ",").reduce("") { (code: String, component: String) -> String in
+            let module = component.trimmingCharacters(in: NSCharacterSet.whitespaces)
+            return code + "@testable import \(module)\(Constant.newLine)"
+        }
+        
+        return code + Constant.newLine
+    }
+    
+    /**
+     Returns all existing imports within the class file.
+     */
+    private func imports() -> String {
+        guard let file = file else {
+            return ""
+        }
+        
+        let code: String = getImportsForFile(path: file).reduce("") { (code: String, importName: String) -> String in
+            code + importName + Constant.newLine
+        }
+        return code + Constant.newLine
+    }
+    
+    /**
+     TODO: I'm not sure what this does or why it's needed.
+     */
+    private func additionalImports() -> String {
+        guard listOfImports.characters.count > 0 else {
+            return ""
+        }
+        
+        let code: String = listOfImports.components(separatedBy: ",").reduce("") { (code: String, importName: String) -> String in
+            code + "import \(importName)\(Constant.newLine)"
+        }
+        return code + Constant.newLine
     }
 }

@@ -74,7 +74,12 @@ class GeneratorApp {
             errors += handleSourcesFile(sources)
         }
         else {
-            errors += fileGenerator.generate()
+            do {
+                try fileGenerator.generate()
+            }
+            catch {
+                errors += 1
+            }
         }
         
         return (errors == 0) ? 0 : 5
@@ -94,7 +99,13 @@ class GeneratorApp {
                     print("\"\(fileName)\" -> \"\(fakeName)\"")
                     fileGenerator.outputFile = fakeName
                     fileGenerator.file = fileName
-                    errors += fileGenerator.generate()
+                    
+                    do {
+                        try fileGenerator.generate()
+                    }
+                    catch {
+                        errors += 1
+                    }
                 }
                 else if parts.count == 0 {
                     print("Ignoring empty source line")

@@ -61,7 +61,7 @@ func createFakeClassForFile(filePath: String) ->String {
     for classStructure in classes {
         let generator = FakeClassGenerator(classStruct: classStructure)
         
-        classText += generator.makeFakeClass() + newLine
+        classText += generator.makeFakeClass() + Constant.newLine
     }
     
     return classText

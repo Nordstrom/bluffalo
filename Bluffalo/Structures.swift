@@ -24,6 +24,7 @@ enum ClassKind: String {
     case Unknown
 }
 
+// TODO: Why are these vars? Change to `let` if possible.
 struct Method {
     var name: String
     var nameWithExternalNames: String = ""
@@ -36,7 +37,31 @@ struct Method {
 }
 
 struct ClassStruct {
-    var classKind : ClassKind
-    var className: String
-    var methods: [Method] = []
+    let classKind: ClassKind
+    let className: String
+    
+    private var _methods: [Method]?
+    internal var methods: [Method] {
+        return _methods ?? []
+    }
+    
+    internal var enumName: String {
+        return "\(className)Method"
+    }
+    
+    init(classKind: ClassKind, className: String, methods: [Method]) {
+        self.classKind = classKind
+        self.className = className
+        self._methods = onlyRealMethods(methods: methods)
+    }
+    
+    private func onlyRealMethods(methods: [Method]) -> [Method] {
+        return methods.filter { (method: Method) -> Bool in
+            if method.name.contains("init(") {
+                return false
+            }
+            
+            return true
+        }
+    }
 }

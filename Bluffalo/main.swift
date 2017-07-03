@@ -29,8 +29,7 @@ let args = Arguments(
 // MARK - Generate fakes
 
 do {
-    let fileGenerator = FileGenerator()
-    try fileGenerator.generate(file: args.file, outFile: args.outputFile, module: args.module, imports: args.importList())
+    try generateFake(file: args.file, outFile: args.outputFile, module: args.module, imports: args.importList())
 }
 catch {
     exit(EXIT_FAILURE)

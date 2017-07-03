@@ -7,6 +7,12 @@ import Foundation
 
 // MARK - Internal functions
 
+/**
+ Parses a `SwiftFile` and returns `Class` structures.
+ 
+ - parameter file: The `SwiftFile` to parse
+ - returns: An array of `Class` structures
+ */
 internal func parse(file: SwiftFile) -> [Class] {
     let classStructures = getClassDictionaries(json: file.json)
 
@@ -17,6 +23,11 @@ internal func parse(file: SwiftFile) -> [Class] {
     return classes
 }
 
+/**
+ Returns all of the class dictionaries within a SourceKitten dictionary.
+ 
+ - returns: All dictionaries which contain SourceKitten dictionaries
+ */
 internal func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyObject]] {
     var classStructures: [[String:AnyObject]] = json["key.substructure"] as! [[String:AnyObject]]
     classStructures = classStructures.filter({ (possibleClass) -> Bool in
@@ -33,6 +44,13 @@ internal func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyOb
     return classStructures
 }
 
+/**
+ Parses a SourceKitten class dictionary into a corresponding `Class`.
+ 
+ - parameter json: The JSON dictionary that contains the SourceKitten class definition
+ - parameter fileContents: The entire contents of the source file
+ - returns: A `Class`
+ */
 internal func parseClass(json: [String: AnyObject], fileContents: String) -> Class {
     var classKind: ClassKind = .Unknown
     

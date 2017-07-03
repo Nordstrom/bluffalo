@@ -77,7 +77,7 @@ internal func loadSwiftFile(at filepath: String) -> SwiftFile {
 internal func createFakeClassForFile(filepath: String) -> String {
     let file = loadSwiftFile(at: filepath)
     
-    let classes: [ClassStruct] = parse(file: file)
+    let classes: [Class] = parse(file: file)
     
     let code = classes.reduce("") { (code, classStruct) -> String in
         let generator = FakeClassGenerator(classStruct: classStruct)

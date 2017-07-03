@@ -20,16 +20,16 @@ class BluffaloTests: XCTestCase {
         return fileContents
     }
     
-    func classStructForFile(_ fileName: String) -> [ClassStruct] {
+    func classStructForFile(_ fileName: String) -> [Class] {
         let filepath = resourceFilepath(for: fileName)
         let file = loadSwiftFile(at: filepath)
-        let classes: [ClassStruct] = parse(file: file)
+        let classes: [Class] = parse(file: file)
         
         return classes
     }
     
     func testGenericGenerateClass() {
-        let classStructArray: [ClassStruct] = classStructForFile("Cat")
+        let classStructArray: [Class] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {
             let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()

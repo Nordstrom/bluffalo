@@ -7,10 +7,10 @@ import Foundation
 
 // MARK - Internal functions
 
-internal func parse(file: SwiftFile) -> [ClassStruct] {
+internal func parse(file: SwiftFile) -> [Class] {
     let classStructures = getClassDictionaries(json: file.json)
 
-    let classes: [ClassStruct] = classStructures.map { (classStructureDict: [String: AnyObject]) -> ClassStruct in
+    let classes: [Class] = classStructures.map { (classStructureDict: [String: AnyObject]) -> Class in
         return parseClass(json: classStructureDict, fileContents: file.contents)
     }
     
@@ -33,7 +33,7 @@ internal func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyOb
     return classStructures
 }
 
-internal func parseClass(json: [String: AnyObject], fileContents: String) -> ClassStruct {
+internal func parseClass(json: [String: AnyObject], fileContents: String) -> Class {
     var classKind: ClassKind = .Unknown
     
     if let kind = ClassKind(rawValue: json["key.kind"]! as! String) {
@@ -41,7 +41,7 @@ internal func parseClass(json: [String: AnyObject], fileContents: String) -> Cla
     }
     
     guard let className = json["key.name"] as? String else {
-        return ClassStruct(classKind: .Unknown, className: "", methods: [])
+        return Class(kind: .Unknown, name: "", methods: [])
     }
     
     var methods = parseMethods(from: json, fileContents: fileContents)
@@ -53,7 +53,7 @@ internal func parseClass(json: [String: AnyObject], fileContents: String) -> Cla
         return true
     })
     
-    return ClassStruct(classKind: classKind, className: className, methods: methods)
+    return Class(kind: classKind, name: className, methods: methods)
 }
 
 // MARK - Private functions

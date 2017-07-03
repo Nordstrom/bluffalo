@@ -25,14 +25,14 @@ class FakeClassGenerator {
     private let classFunctionsAndArgumentsCalledString: String = "classFunctionsAndArgumentsCalled"
     private let functionsAndArgumentsCalledString: String = "functionsAndArgumentsCalled"
     
-    private let classStruct: ClassStruct
+    private let classStruct: Class
     
     private var className: String {
-        return classStruct.className
+        return classStruct.name
     }
     
     private var classKind: ClassKind {
-        return classStruct.classKind
+        return classStruct.kind
     }
     
     private var methods: [Method] {
@@ -43,7 +43,7 @@ class FakeClassGenerator {
         return classStruct.enumName
     }
     
-    init(classStruct: ClassStruct) {
+    init(classStruct: Class) {
         self.classStruct = classStruct
     }
     

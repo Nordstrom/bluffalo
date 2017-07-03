@@ -24,7 +24,6 @@ enum ClassKind: String {
     case Unknown
 }
 
-// FIXME: Rename to MethodStruct to be consistent with naming? 
 struct Method {
     let name: String
     let nameWithExternalNames: String
@@ -36,9 +35,9 @@ struct Method {
     let returnType: String?
 }
 
-struct ClassStruct {
-    let classKind: ClassKind
-    let className: String
+struct Class {
+    let kind: ClassKind
+    let name: String
     
     private var _methods: [Method]?
     internal var methods: [Method] {
@@ -46,12 +45,12 @@ struct ClassStruct {
     }
     
     internal var enumName: String {
-        return "\(className)Method"
+        return "\(name)Method"
     }
     
-    init(classKind: ClassKind, className: String, methods: [Method]) {
-        self.classKind = classKind
-        self.className = className
+    init(kind: ClassKind, name: String, methods: [Method]) {
+        self.kind = kind
+        self.name = name
         self._methods = onlyRealMethods(methods: methods)
     }
     

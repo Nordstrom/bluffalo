@@ -18,7 +18,7 @@ internal func generateFake(file: String, outFile: String, module: String?, impor
 
     // CLI command that can be used to regenerate the fake.
     code = "// Copy and paste the following command to regenerate this fake\n" +
-        "// bluffalo -file \(file) -outputFile \(outFile) \(moduleParameter(module))\n\n"
+           "// bluffalo -f \(file) -o \(outFile) \(moduleParameter(module))\n\n"
     
     // Additional imports
     code += additionalImports(from: imports)

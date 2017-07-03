@@ -23,12 +23,12 @@ class BluffaloTests: XCTestCase {
     }
     
     func classStructForFile(_ fileName: String) -> [ClassStruct] {
-        let json = getJSONForFilePath(filepath: filePath(name: fileName))
-        let classDictionaryArray = getClassDictionaries(json: json)
+        let file = loadSwiftFile(at: filePath(name: fileName))
+        let classDictionaryArray = getClassDictionaries(json: file.json)
         
         var classStructureArray: [ClassStruct] = []
         for  dictionary in classDictionaryArray {
-            let classStructure = Parser(json: dictionary).parse()
+            let classStructure = Parser(json: dictionary).parse(fileContents: file.contents)
             classStructureArray.append(classStructure)
         }
         
@@ -40,7 +40,7 @@ class BluffaloTests: XCTestCase {
         var finalClassString = ""
         for classStruct in classStructArray {
             let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
-            finalClassString += classString + Constant.newLine
+            finalClassString += classString + "\n"
         }
         
         let expectedClassString = stringForFile(filePath(name: "FakeCat"))

@@ -1,13 +1,5 @@
 import Foundation
 
-struct Constant {
-    static let tab: String = "    "
-    static let newLine: String = "\n"
-    static let equalityFunction = "checkEquality"
-}
-
-var contentsOfFile: String?
-
 class FileGenerator {
     
     /**
@@ -22,8 +14,8 @@ class FileGenerator {
         var code = ""
 
         // CLI command that can be used to regenerate the fake.
-        code = "// Copy and paste the following command to regenerate this fake\(Constant.newLine)" +
-            "// bluffalo -file \(file) -outputFile \(outFile) \(moduleParameter(module))\(Constant.newLine)\(Constant.newLine)"
+        code = "// Copy and paste the following command to regenerate this fake\n" +
+            "// bluffalo -file \(file) -outputFile \(outFile) \(moduleParameter(module))\n\n"
         
         // Additional imports
         code += additionalImports(from: imports)
@@ -32,7 +24,7 @@ class FileGenerator {
         code += testableImport(module)
 
         // Generate source code.
-        code += createFakeClassForFile(filePath: file) + Constant.newLine
+        code += createFakeClassForFile(filePath: file) + "\n"
     
         write(code: code, to: outFile)
     }
@@ -57,7 +49,7 @@ class FileGenerator {
             return ""
         }
         
-        return "@testable import \(module)\(Constant.newLine)\(Constant.newLine)"
+        return "@testable import \(module)\n\n"
     }
     
     /**
@@ -69,8 +61,8 @@ class FileGenerator {
         }
         
         let code: String = imports.reduce("") { (code: String, importName: String) -> String in
-            code + "import \(importName)\(Constant.newLine)"
+            code + "import \(importName)\n"
         }
-        return code + Constant.newLine
+        return code + "\n"
     }
 }

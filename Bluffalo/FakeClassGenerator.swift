@@ -1,5 +1,9 @@
 import Foundation
 
+private struct Constant {
+    static let equalityFunction = "checkEquality"
+}
+
 private func stringForMethodKind(methodKind: MethodKind) -> String {
     switch methodKind {
     case .Class: return "class func"
@@ -12,7 +16,6 @@ private func stringForMethodKind(methodKind: MethodKind) -> String {
 }
 
 class FakeClassGenerator {
-    private let newLine = "\n"
     private let tab = "    "
     private let classFunctionsAndArgumentsCalledString: String = "classFunctionsAndArgumentsCalled"
     private let functionsAndArgumentsCalledString: String = "functionsAndArgumentsCalled"

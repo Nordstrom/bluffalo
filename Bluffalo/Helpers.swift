@@ -1,6 +1,11 @@
 import Foundation
 
-func getJSONForFilePath(filepath:String) -> [String:AnyObject] {
+struct SwiftFile {
+    let contents: String
+    let json: [String: AnyObject]
+}
+
+func loadSwiftFile(at filepath: String) -> SwiftFile {
     let sourceKittenPath: String = "/usr/local/bin/sourcekitten"
     
     guard FileManager.default.fileExists(atPath: sourceKittenPath) else {
@@ -9,7 +14,7 @@ func getJSONForFilePath(filepath:String) -> [String:AnyObject] {
         exit(1)
     }
     
-    contentsOfFile = try! String(contentsOfFile: filepath)
+    let contentsOfFile = try! String(contentsOfFile: filepath)
     
     let task = Process()
     task.launchPath = "/usr/local/bin/sourcekitten"
@@ -27,7 +32,7 @@ func getJSONForFilePath(filepath:String) -> [String:AnyObject] {
         exit(1)
     }
     
-    return json
+    return SwiftFile(contents: contentsOfFile, json: json)
 }
 
 func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyObject]] {
@@ -45,23 +50,23 @@ func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyObject]] {
     return classStructures
 }
 
-func createFakeClassForFile(filePath: String) ->String {
+func createFakeClassForFile(filePath: String) -> String {
     
-    let json = getJSONForFilePath(filepath: filePath)
+    let file = loadSwiftFile(at: filePath)
     
-    let classStructures = getClassDictionaries(json: json)
+    let classStructures = getClassDictionaries(json: file.json)
     
     let classes: [ClassStruct] = classStructures.map { (classStructureDict: [String : AnyObject]) -> ClassStruct in
         let parser = Parser(json: classStructureDict)
         
-        return parser.parse()
+        return parser.parse(fileContents: file.contents)
     }
     
     var classText = ""
     for classStructure in classes {
         let generator = FakeClassGenerator(classStruct: classStructure)
         
-        classText += generator.makeFakeClass() + Constant.newLine
+        classText += generator.makeFakeClass() + "\n"
     }
     
     return classText

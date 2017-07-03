@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK - Parse CLI arguments
+
 let cli = CommandLineParser()
 
 let fileOption = StringOption(shortFlag: "f", longFlag: "file", required: true, helpMessage: "The input file")
@@ -23,6 +25,8 @@ let args = Arguments(
     module: moduleOption.value,
     imports: importsOption.value
 )
+
+// MARK - Generate fakes
 
 do {
     let fileGenerator = FileGenerator()

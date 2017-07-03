@@ -106,7 +106,7 @@ class Parser {
         return externalArgumentNames
     }
     
-    func parse() -> ClassStruct {
+    func parse(fileContents: String) -> ClassStruct {
         var classKind: ClassKind = .Unknown
         
         if let kind = ClassKind(rawValue: json["key.kind"]! as! String) {
@@ -185,7 +185,7 @@ class Parser {
                         
                         methodStruct.nameWithExternalNames = methodSignature
                         methodStruct.externalArgumentNames = externalArgumentNamesWithInternalBackup
-                        methodStruct.returnType = returnTypeFromMethodDict(dict: methodStructureDict, fileContents: contentsOfFile!)
+                        methodStruct.returnType = returnTypeFromMethodDict(dict: methodStructureDict, fileContents: fileContents)
                         methodStruct.argumentNames = argumentNames
                         methodStruct.argumentTypes = argumentTypes
                         methodStruct.kind = methodKind

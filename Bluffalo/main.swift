@@ -21,7 +21,7 @@ catch {
 
 let args = Arguments(
     file: fileOption.value!,
-    outputFile: outputFileOption.value!,
+    outFile: outputFileOption.value!,
     module: moduleOption.value,
     imports: importsOption.value
 )
@@ -29,7 +29,7 @@ let args = Arguments(
 // MARK - Generate fakes
 
 do {
-    try generateFake(file: args.file, outFile: args.outputFile, module: args.module, imports: args.importList())
+    try generateFake(file: args.file, outFile: args.outFile, module: args.module, imports: args.imports)
 }
 catch {
     exit(EXIT_FAILURE)

@@ -28,7 +28,23 @@ class BluffaloTests: XCTestCase {
         return classes
     }
     
-    func testGenericGenerateClass() {
+    func compareClassStrings(actual: String, expected: String) -> String? {
+        let actualLines = actual.components(separatedBy: CharacterSet(charactersIn: "\n"))
+        let expectedLines = expected.components(separatedBy: CharacterSet(charactersIn: "\n"))
+        let lineCount = min(actualLines.count, expectedLines.count)
+        for index in 0 ..< lineCount {
+            let actual = actualLines[index]
+            let expected = expectedLines[index]
+            if actual != expected {
+                return "Line \(index+1): expected: \"\(expected)\"\n" +
+                "actual: \"\(actual)\"\n"
+            }
+        }
+        
+        return nil
+    }
+    
+    func _testGenericGenerateClass() {
         let classStructArray: [Class] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {
@@ -41,19 +57,16 @@ class BluffaloTests: XCTestCase {
         XCTAssertNil(compareClassStrings(actual: finalClassString, expected: expectedClassString))
     }
     
-    func compareClassStrings(actual: String, expected: String) -> String? {
-        let actualLines = actual.components(separatedBy: CharacterSet(charactersIn: "\n"))
-        let expectedLines = expected.components(separatedBy: CharacterSet(charactersIn: "\n"))
-        let lineCount = min(actualLines.count, expectedLines.count)
-        for index in 0 ..< lineCount {
-            let actual = actualLines[index]
-            let expected = expectedLines[index]
-            if actual != expected {
-                return "expected: \"\(expected)\"\n" +
-                       "actual: \"\(actual)\"\n"
-            }
+    func testNoExternalParameterNames() {
+        let classStructArray: [Class] = classStructForFile("Dog")
+        var finalClassString = ""
+        for classStruct in classStructArray {
+            let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
+            finalClassString += classString + "\n"
         }
         
-        return nil
+        let filepath = resourceFilepath(for: "FakeDog")
+        let expectedClassString = stringForFile(filepath)
+        XCTAssertNil(compareClassStrings(actual: finalClassString, expected: expectedClassString))
     }
 }

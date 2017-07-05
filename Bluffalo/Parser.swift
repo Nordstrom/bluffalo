@@ -141,7 +141,9 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
                 argumentToUse = "_ \(externalArgumentNamesWithInternalBackup[i]): \(argumentType)"
             }
             
-            methodSignature = methodSignature.replacingOccurrences(of: argumentToReplace, with: argumentToUse)
+            if let range = methodSignature.range(of: argumentToReplace) {
+                methodSignature = methodSignature.replacingOccurrences(of: argumentToReplace, with: argumentToUse, options: NSString.CompareOptions.literal, range: range)
+            }
         }
         
         // Return type

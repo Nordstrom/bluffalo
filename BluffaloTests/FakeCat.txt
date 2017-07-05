@@ -71,7 +71,7 @@ class FakeCatDelegate: CatDelegate {
     func setReturnFor<T>(stub: CatDelegateStub<T>, value: Any) {
         stubs.append((stub, value))
     }
-     func catMeowed(){
+     func catMeowed() {
         let stub = CatDelegateStub<Any>(method: .catMeowed())
         methodCalls.append(stub)
     }
@@ -258,12 +258,12 @@ class FakeCat: Cat {
         return classStubs[stub] as! Int
     }
 
-    override func name(){
+    override func name() {
         let stub = CatStub<Any>(method: .name())
         methodCalls.append(stub)
     }
 
-    override func catMeowed(){
+    override func catMeowed() {
         let stub = CatStub<Any>(method: .catMeowed())
         methodCalls.append(stub)
     }

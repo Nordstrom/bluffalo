@@ -1,0 +1,8 @@
+import Foundation
+
+class Dog {
+
+    internal func bark(_ volume: Int, _ tenacity: Int) {
+
+    }
+}

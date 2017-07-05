@@ -98,11 +98,11 @@ class FakeClassGenerator {
                 
                 var stubGeneric = "Any"
                 if let returnType = method.returnType {
-                    code += " -> " + returnType + " "
+                    code += " -> " + returnType
                     stubGeneric = returnType
                 }
                 
-                code += "{\n"
+                code += " {\n"
                 
                 var parameters = "nil"
                 if method.externalArgumentNames.count > 0 {

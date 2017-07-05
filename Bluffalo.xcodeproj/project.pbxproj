@@ -7,27 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D7DFAC41E4BD0580096D4E8 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */; };
-		0D7DFAC51E4BDB0F0096D4E8 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */; };
-		0D884B8B1E3A9C87007B2501 /* GeneratorAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D884B8A1E3A9C87007B2501 /* GeneratorAppTests.swift */; };
-		0D884B8D1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */; };
-		0D884B8E1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */; };
+		07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
+		07079B1C1F0AF44C00FEF0FA /* FakeFileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */; };
+		07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */; };
+		07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFE61DF27366009CA1B0 /* Parser.swift */; };
+		07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
+		07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
+		07079B271F0B0A1E00FEF0FA /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B261F0B0A1E00FEF0FA /* Arguments.swift */; };
+		07079B291F0D39D900FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
+		07079B2D1F0D3BFB00FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
+		0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092171F0AB7C000A2E089 /* CommandLine.swift */; };
+		0720921B1F0AB7C000A2E089 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092181F0AB7C000A2E089 /* Option.swift */; };
+		0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092191F0AB7C000A2E089 /* StringExtensions.swift */; };
+		0D7DFAC41E4BD0580096D4E8 /* FakeFileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */; };
 		0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7551C1E391ACE00ABC1CD /* Makefile */; };
-		0DB7551F1E391AE500ABC1CD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7551E1E391AE500ABC1CD /* README.md */; };
 		A7D50AAB1D8212200049D633 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D50AAA1D8212200049D633 /* main.swift */; };
 		A7E9DEA11D99D1F9004406D7 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
 		BB67EFD21DF248C7009CA1B0 /* FakeClassGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */; };
 		BB67EFDA1DF26C81009CA1B0 /* BluffaloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD91DF26C81009CA1B0 /* BluffaloTests.swift */; };
-		BB67EFE21DF2704A009CA1B0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D50AAA1D8212200049D633 /* main.swift */; };
-		BB67EFE31DF27056009CA1B0 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E9DEA01D99D1F9004406D7 /* Structures.swift */; };
-		BB67EFE51DF2705C009CA1B0 /* FakeClassGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */; };
 		BB67EFE71DF27366009CA1B0 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFE61DF27366009CA1B0 /* Parser.swift */; };
-		BB67EFE91DF276AE009CA1B0 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB67EFE61DF27366009CA1B0 /* Parser.swift */; };
 		BB67EFF31DF28C6C009CA1B0 /* Cat.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB67EFF21DF28C6C009CA1B0 /* Cat.txt */; };
 		BBA3EC081DF2933B0012E5E2 /* FakeCat.txt in Resources */ = {isa = PBXBuildFile; fileRef = BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */; };
-		BBA3EC0A1DF2974D0012E5E2 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA3EC091DF2974D0012E5E2 /* Helpers.swift */; };
-		BBA3EC0B1DF297AE0012E5E2 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA3EC091DF2974D0012E5E2 /* Helpers.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07A2156D1F0AE181001009FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7D50A9F1D8212200049D633 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7D50AA61D8212200049D633;
+			remoteInfo = Bluffalo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A7D50AA51D8212200049D633 /* CopyFiles */ = {
@@ -42,13 +53,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileGenerator.swift; sourceTree = "<group>"; };
-		0D884B8A1E3A9C87007B2501 /* GeneratorAppTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorAppTests.swift; sourceTree = "<group>"; };
-		0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorApp.swift; sourceTree = "<group>"; };
-		0D908C3E1E3A989D00A2DFD5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		0DB7551B1E391AC500ABC1CD /* FakeGenerator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = FakeGenerator.rb; sourceTree = "<group>"; };
+		07079B211F0AF50200FEF0FA /* SwiftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftFile.swift; sourceTree = "<group>"; };
+		07079B261F0B0A1E00FEF0FA /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		07079B281F0D39D900FEF0FA /* BluffaloError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluffaloError.swift; sourceTree = "<group>"; };
+		072092171F0AB7C000A2E089 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommandLine.swift; path = Vendor/CommandLineKit/CommandLine.swift; sourceTree = "<group>"; };
+		072092181F0AB7C000A2E089 /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Option.swift; path = Vendor/CommandLineKit/Option.swift; sourceTree = "<group>"; };
+		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
+		07DE8D7D1F0AEC3400B19666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeFileGenerator.swift; sourceTree = "<group>"; };
 		0DB7551C1E391ACE00ABC1CD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0DB7551E1E391AE500ABC1CD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A7D50AA71D8212200049D633 /* Bluffalo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bluffalo; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D50AAA1D8212200049D633 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A7E9DEA01D99D1F9004406D7 /* Structures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
@@ -59,7 +72,6 @@
 		BB67EFE61DF27366009CA1B0 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		BB67EFF21DF28C6C009CA1B0 /* Cat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cat.txt; sourceTree = "<group>"; };
 		BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FakeCat.txt; sourceTree = "<group>"; };
-		BBA3EC091DF2974D0012E5E2 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,13 +92,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07079B2A1F0D3B1F00FEF0FA /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
+				A7E9DEA01D99D1F9004406D7 /* Structures.swift */,
+				07079B211F0AF50200FEF0FA /* SwiftFile.swift */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		07079B2B1F0D3B4200FEF0FA /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
+				0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */,
+			);
+			name = Generator;
+			sourceTree = "<group>";
+		};
+		07079B2C1F0D3B5100FEF0FA /* CLI */ = {
+			isa = PBXGroup;
+			children = (
+				07079B261F0B0A1E00FEF0FA /* Arguments.swift */,
+			);
+			name = CLI;
+			sourceTree = "<group>";
+		};
+		072092141F0AB79500A2E089 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				072092161F0AB7B200A2E089 /* CommandLineKit */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		072092161F0AB7B200A2E089 /* CommandLineKit */ = {
+			isa = PBXGroup;
+			children = (
+				072092171F0AB7C000A2E089 /* CommandLine.swift */,
+				072092181F0AB7C000A2E089 /* Option.swift */,
+				072092191F0AB7C000A2E089 /* StringExtensions.swift */,
+			);
+			name = CommandLineKit;
+			sourceTree = "<group>";
+		};
+		07B1F71D1F0AC6B700758951 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */,
+				BB67EFF21DF28C6C009CA1B0 /* Cat.txt */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		07B1F71E1F0AC6C800758951 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BB67EFD91DF26C81009CA1B0 /* BluffaloTests.swift */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		0DB7551A1E391AA700ABC1CD /* Auxiliary Files */ = {
 			isa = PBXGroup;
 			children = (
-				0D908C3E1E3A989D00A2DFD5 /* .gitignore */,
-				0DB7551E1E391AE500ABC1CD /* README.md */,
 				0DB7551C1E391ACE00ABC1CD /* Makefile */,
-				0DB7551B1E391AC500ABC1CD /* FakeGenerator.rb */,
 			);
 			name = "Auxiliary Files";
 			sourceTree = "<group>";
@@ -94,6 +165,7 @@
 		A7D50A9E1D8212200049D633 = {
 			isa = PBXGroup;
 			children = (
+				072092141F0AB79500A2E089 /* Vendor */,
 				0DB7551A1E391AA700ABC1CD /* Auxiliary Files */,
 				A7D50AA91D8212200049D633 /* Bluffalo */,
 				BB67EFD81DF26C81009CA1B0 /* BluffaloTests */,
@@ -113,13 +185,12 @@
 		A7D50AA91D8212200049D633 /* Bluffalo */ = {
 			isa = PBXGroup;
 			children = (
+				07079B2C1F0D3B5100FEF0FA /* CLI */,
+				07079B2B1F0D3B4200FEF0FA /* Generator */,
+				07079B2A1F0D3B1F00FEF0FA /* Parser */,
+				07079B281F0D39D900FEF0FA /* BluffaloError.swift */,
+				07DE8D7D1F0AEC3400B19666 /* Info.plist */,
 				A7D50AAA1D8212200049D633 /* main.swift */,
-				A7E9DEA01D99D1F9004406D7 /* Structures.swift */,
-				0D7DFAC31E4BD0580096D4E8 /* FileGenerator.swift */,
-				0D884B8C1E3A9CF4007B2501 /* GeneratorApp.swift */,
-				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
-				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
-				BBA3EC091DF2974D0012E5E2 /* Helpers.swift */,
 			);
 			path = Bluffalo;
 			sourceTree = "<group>";
@@ -127,11 +198,9 @@
 		BB67EFD81DF26C81009CA1B0 /* BluffaloTests */ = {
 			isa = PBXGroup;
 			children = (
-				BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */,
-				BB67EFF21DF28C6C009CA1B0 /* Cat.txt */,
-				BB67EFD91DF26C81009CA1B0 /* BluffaloTests.swift */,
+				07B1F71E1F0AC6C800758951 /* Tests */,
+				07B1F71D1F0AC6B700758951 /* Data */,
 				BB67EFDB1DF26C81009CA1B0 /* Info.plist */,
-				0D884B8A1E3A9C87007B2501 /* GeneratorAppTests.swift */,
 			);
 			path = BluffaloTests;
 			sourceTree = "<group>";
@@ -167,6 +236,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				07A2156E1F0AE181001009FB /* PBXTargetDependency */,
 			);
 			name = BluffaloTests;
 			productName = FakeGeneratorTests;
@@ -228,15 +298,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D884B8D1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */,
-				BBA3EC0A1DF2974D0012E5E2 /* Helpers.swift in Sources */,
+				0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */,
 				BB67EFE71DF27366009CA1B0 /* Parser.swift in Sources */,
+				0720921B1F0AB7C000A2E089 /* Option.swift in Sources */,
 				BB67EFD21DF248C7009CA1B0 /* FakeClassGenerator.swift in Sources */,
 				A7E9DEA11D99D1F9004406D7 /* Structures.swift in Sources */,
+				0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */,
 				0DB7551D1E391ACE00ABC1CD /* Makefile in Sources */,
-				0DB7551F1E391AE500ABC1CD /* README.md in Sources */,
 				A7D50AAB1D8212200049D633 /* main.swift in Sources */,
-				0D7DFAC41E4BD0580096D4E8 /* FileGenerator.swift in Sources */,
+				0D7DFAC41E4BD0580096D4E8 /* FakeFileGenerator.swift in Sources */,
+				07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */,
+				07079B271F0B0A1E00FEF0FA /* Arguments.swift in Sources */,
+				07079B291F0D39D900FEF0FA /* BluffaloError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,18 +318,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB67EFDA1DF26C81009CA1B0 /* BluffaloTests.swift in Sources */,
-				0D7DFAC51E4BDB0F0096D4E8 /* FileGenerator.swift in Sources */,
-				0D884B8E1E3A9CF4007B2501 /* GeneratorApp.swift in Sources */,
-				BBA3EC0B1DF297AE0012E5E2 /* Helpers.swift in Sources */,
-				BB67EFE21DF2704A009CA1B0 /* main.swift in Sources */,
-				BB67EFE51DF2705C009CA1B0 /* FakeClassGenerator.swift in Sources */,
-				BB67EFE31DF27056009CA1B0 /* Structures.swift in Sources */,
-				0D884B8B1E3A9C87007B2501 /* GeneratorAppTests.swift in Sources */,
-				BB67EFE91DF276AE009CA1B0 /* Parser.swift in Sources */,
+				07079B2D1F0D3BFB00FEF0FA /* BluffaloError.swift in Sources */,
+				07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */,
+				07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */,
+				07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */,
+				07079B1C1F0AF44C00FEF0FA /* FakeFileGenerator.swift in Sources */,
+				07079B1D1F0AF44F00FEF0FA /* FakeClassGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		07A2156E1F0AE181001009FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7D50AA61D8212200049D633 /* Bluffalo */;
+			targetProxy = 07A2156D1F0AE181001009FB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A7D50AAC1D8212200049D633 /* Debug */ = {
@@ -350,14 +429,19 @@
 		A7D50AAF1D8212200049D633 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "$(SRCROOT)/Bluffalo/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nordstrom.Bluffalo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TEST_HOST = "";
 			};
 			name = Debug;
 		};
 		A7D50AB01D8212200049D633 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "$(SRCROOT)/Bluffalo/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nordstrom.Bluffalo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

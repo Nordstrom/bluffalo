@@ -1,9 +1,8 @@
 import XCTest
-@testable import Bluffalo
 
 class BluffaloTests: XCTestCase {
     
-    func filePath(name: String) -> String {
+    func resourceFilepath(for name: String) -> String {
         let filePath = Bundle(for: type(of: self)).path(forResource: name, ofType: "txt")!
         return filePath
     }
@@ -21,28 +20,24 @@ class BluffaloTests: XCTestCase {
         return fileContents
     }
     
-    func classStructForFile(_ fileName: String) -> [ClassStruct] {
-        let json = getJSONForFilePath(filepath: filePath(name: fileName))
-        let classDictionaryArray = getClassDictionaries(json: json)
+    func classStructForFile(_ fileName: String) -> [Class] {
+        let filepath = resourceFilepath(for: fileName)
+        let file = try? loadSwiftFile(at: filepath)
+        let classes: [Class] = parse(file: file!)
         
-        var classStructureArray: [ClassStruct] = []
-        for  dictionary in classDictionaryArray {
-            let classStructure = Parser(json: dictionary).parse()
-            classStructureArray.append(classStructure)
-        }
-        
-        return classStructureArray
+        return classes
     }
     
     func testGenericGenerateClass() {
-        let classStructArray: [ClassStruct] = classStructForFile("Cat")
+        let classStructArray: [Class] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {
             let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
-            finalClassString += classString + newLine
+            finalClassString += classString + "\n"
         }
         
-        let expectedClassString = stringForFile(filePath(name: "FakeCat"))
+        let filepath = resourceFilepath(for: "FakeCat")
+        let expectedClassString = stringForFile(filepath)
         XCTAssertNil(compareClassStrings(actual: finalClassString, expected: expectedClassString))
     }
     

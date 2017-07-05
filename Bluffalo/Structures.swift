@@ -1,6 +1,5 @@
 import Foundation
 
-//Enums
 enum MethodKind: String {
     case Instance = "source.lang.swift.decl.function.method.instance"
     case Class = "source.lang.swift.decl.function.method.class"
@@ -25,21 +24,43 @@ enum ClassKind: String {
     case Unknown
 }
 
-
-//Structures
 struct Method {
-    var name: String
-    var nameWithExternalNames: String = ""
-    var kind: MethodKind = .Instance
-    var accessibility: MethodAccessibility = .Private
-    var argumentNames: [String] = []
-    var externalArgumentNames: [String] = []
-    var argumentTypes: [String] = []
-    var returnType: String?
+    let name: String
+    let nameWithExternalNames: String
+    let kind: MethodKind
+    let accessibility: MethodAccessibility
+    let argumentNames: [String]
+    let externalArgumentNames: [String]
+    let argumentTypes: [String]
+    let returnType: String?
 }
 
-struct ClassStruct {
-    var classKind : ClassKind
-    var className: String
-    var methods: [Method] = []
+struct Class {
+    let kind: ClassKind
+    let name: String
+    
+    private var _methods: [Method]?
+    internal var methods: [Method] {
+        return _methods ?? []
+    }
+    
+    internal var enumName: String {
+        return "\(name)Method"
+    }
+    
+    init(kind: ClassKind, name: String, methods: [Method]) {
+        self.kind = kind
+        self.name = name
+        self._methods = onlyRealMethods(methods: methods)
+    }
+    
+    private func onlyRealMethods(methods: [Method]) -> [Method] {
+        return methods.filter { (method: Method) -> Bool in
+            if method.name.contains("init(") {
+                return false
+            }
+            
+            return true
+        }
+    }
 }

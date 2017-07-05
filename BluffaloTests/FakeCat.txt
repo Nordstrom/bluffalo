@@ -15,6 +15,7 @@ public func == (lhs: CatDelegateMethod, rhs: CatDelegateMethod) -> Bool {
     case (.catMeowed(), .catMeowed()): return true
     }
 }
+
 struct CatDelegateStub<T>: Hashable, Equatable {
     var method: CatDelegateMethod
     var hashValue: Int {
@@ -28,6 +29,7 @@ struct CatDelegateStub<T>: Hashable, Equatable {
     public static func == (lhs: CatDelegateStub, rhs: CatDelegateStub) -> Bool {
         return lhs.method == rhs.method
     }
+
     public static func catMeowed() -> CatDelegateStub<Any> {
         return CatDelegateStub<Any>(method: .catMeowed())
     }
@@ -71,7 +73,8 @@ class FakeCatDelegate: CatDelegate {
     func setReturnFor<T>(stub: CatDelegateStub<T>, value: Any) {
         stubs.append((stub, value))
     }
-     func catMeowed() {
+
+    func catMeowed() {
         let stub = CatDelegateStub<Any>(method: .catMeowed())
         methodCalls.append(stub)
     }
@@ -111,7 +114,6 @@ class FakeCatDelegate: CatDelegate {
     class func didCall<T>(method: CatDelegateStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
-
 }
 
 public enum CatMethod: Equatable, Hashable {
@@ -158,6 +160,7 @@ public func == (lhs: CatMethod, rhs: CatMethod) -> Bool {
     case (.catMeowed, _): return false
     }
 }
+
 struct CatStub<T>: Hashable, Equatable {
     var method: CatMethod
     var hashValue: Int {
@@ -171,6 +174,7 @@ struct CatStub<T>: Hashable, Equatable {
     public static func == (lhs: CatStub, rhs: CatStub) -> Bool {
         return lhs.method == rhs.method
     }
+
     public static func numberOfLives() -> CatStub<Int> {
         return CatStub<Int>(method: .numberOfLives())
     }
@@ -234,6 +238,7 @@ class FakeCat: Cat {
     func setReturnFor<T>(stub: CatStub<T>, value: Any) {
         stubs.append((stub, value))
     }
+
     override func numberOfLives() -> Int {
         let stub = CatStub<Int>(method: .numberOfLives())
         methodCalls.append(stub)
@@ -303,6 +308,5 @@ class FakeCat: Cat {
     class func didCall<T>(method: CatStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
-
 }
 

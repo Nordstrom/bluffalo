@@ -91,10 +91,10 @@ class FakeClassGenerator {
                 var overrideString: String = ""
                 
                 if classKind == .ClassKind {
-                    overrideString = "override"
+                    overrideString = "override "
                 }
                 
-                code += tab + "\(overrideString) \(methodKindString) \(method.nameWithExternalNames)"
+                code += tab + "\(overrideString)\(methodKindString) \(method.nameWithExternalNames)"
                 
                 var stubGeneric = "Any"
                 if let returnType = method.returnType {
@@ -161,7 +161,6 @@ class FakeClassGenerator {
         code += tab + "class func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
         code += tab + tab + "return matchingMethods(method).count > 0\n"
         code += tab + "}\n"
-        code += "\n" // FIXME: Why the extra newline?
         code += "}\n"
 
         return code
@@ -294,7 +293,7 @@ class FakeClassGenerator {
         }
         
         code += "\(tab)}\n"
-        code += "}"
+        code += "}\n"
         
         return code
     }
@@ -344,9 +343,10 @@ class FakeClassGenerator {
         
         code += tab + "public static func == (lhs: \(className)Stub, rhs: \(className)Stub) -> Bool {\n"
         code += tab + tab + "return lhs.method == rhs.method\n"
-        code += tab + "}\n"
+        code += tab + "}\n\n"
         
         for method in methods {
+            // TODO: Refactor this.
             if let _ = enumNameForMethod(method: method) {
                 code += tab + "public static func " + method.nameWithExternalNames
                 
@@ -369,7 +369,7 @@ class FakeClassGenerator {
                 let methodEnum = generateEnumWithPassedInParameters(for: method)
                 code += tab + tab + "return \(className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
                 code += tab + "}\n"
-                code += "\n"
+                code += "\n" // TODO: Should not be added to the last generated func.
             }
         }
         
@@ -439,7 +439,7 @@ class FakeClassGenerator {
         
         code += tab + "func setReturnFor<T>(stub: \(className)Stub<T>, value: Any) {\n"
         code += tab + tab + "stubs.append((stub, value))\n"
-        code += tab + "}\n"
+        code += tab + "}\n\n"
         
         return code
     }

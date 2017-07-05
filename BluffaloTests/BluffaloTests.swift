@@ -44,7 +44,7 @@ class BluffaloTests: XCTestCase {
         return nil
     }
     
-    func _testGenericGenerateClass() {
+    func testGenericGenerateClass() {
         let classStructArray: [Class] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {

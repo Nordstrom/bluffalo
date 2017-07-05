@@ -78,7 +78,7 @@ internal func createFakeClassForFile(filepath: String) throws -> String {
     
     let code = classes.reduce("") { (code, classStruct) -> String in
         let generator = FakeClassGenerator(classStruct: classStruct)
-        return code + generator.makeFakeClass() + "\n"
+        return code + generator.makeFakeClass()
     }
     
     return code

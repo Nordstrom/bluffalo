@@ -76,12 +76,6 @@ class FakeClassGenerator {
     private func generateFakeClass() -> String {
         var code = "class Fake\(className): \(className) {\n"
         
-        code += tab + "var stubs = [(Any,Any)]()\n"
-        code += tab + "static var classStubs = [AnyHashable: Any]()\n"
-        code += tab + "private var methodCalls = [Any]()\n"
-        code += tab + "private static var classMethodCalls = [Any]()\n"
-        code += "\n"
-        
         code += generateStubHelpers()
         
         for method in methods {
@@ -90,28 +84,8 @@ class FakeClassGenerator {
             }
         }
         
-        code += tab + "func stub<T>(_ stub: \(className)Stub<T>) -> \(className)Return<T> {\n"
-        code += tab + tab + "return \(className)Return<T>(fake: self, stub: stub)\n"
-        code += tab + "}\n"
-        code += "\n"
-        
-        code += tab + "class func stub<T>(_ stub: \(className)Stub<T>) -> \(className)ClassReturn<T> {\n"
-        code += tab + tab + "return \(className)ClassReturn<T>(stub: stub)\n"
-        code += tab + "}\n"
-        code += "\n"
-        
-        code += generateMatchingMethods()
-        
-        code += tab + "func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
-        code += tab + tab + "return matchingMethods(method).count > 0\n"
-        code += tab + "}\n"
-        code += "\n"
-        
-        code += tab + "class func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
-        code += tab + tab + "return matchingMethods(method).count > 0\n"
-        code += tab + "}\n"
         code += "}\n"
-
+        
         return code
     }
     
@@ -194,7 +168,7 @@ class FakeClassGenerator {
         
         for method: Method in methods {
             if let methodName = enumNameForMethod(method: method) {
-                code += "\(tab)case " + methodName
+                code += tab + "case " + methodName
                 code += "("
                 
                 var needsComma: Bool = false
@@ -210,8 +184,8 @@ class FakeClassGenerator {
             }
         }
         
-        code += "\(tab)public var hashValue: Int {\n"
-        code += "\(tab)\(tab)get {\n"
+        code += tab + "public var hashValue: Int {\n"
+        code += tab + tab + "get {\n"
         code += tab + tab + tab + "switch self {\n"
         
         var hashValue: Int = 0
@@ -234,12 +208,11 @@ class FakeClassGenerator {
     private func generateEquatableMethod() -> String {
         var code: String = ""
         code += "public func == (lhs: \(enumName), rhs: \(enumName)) -> Bool {\n"
-        code += "\(tab)switch (lhs, rhs) {\n"
+        code += tab + "switch (lhs, rhs) {\n"
         
         for method: Method in methods {
             if let methodName = enumNameForMethod(method: method) {
-                code += "\(tab)"
-                code += "case (.\(methodName)("
+                code += tab + "case (.\(methodName)("
                 let numberOfArguments: Int = method.argumentTypes.count
                 if numberOfArguments > 0 {
                     for i in 1...numberOfArguments {
@@ -294,43 +267,14 @@ class FakeClassGenerator {
             code += "\n"
             for method: Method in methods {
                 if let methodName = enumNameForMethod(method: method) {
-                    code += "\(tab)case (.\(methodName), _): return false"
+                    code += tab + "case (.\(methodName), _): return false"
                     code += "\n"
                 }
             }
         }
         
-        code += "\(tab)}\n"
+        code += tab + "}\n"
         code += "}\n"
-        
-        return code
-    }
-    
-    private func generateMatchingMethods() -> String {
-        var code: String = ""
-        code += tab + "func matchingMethods<T>(_ stub: \(className)Stub<T>) -> [Any] {\n"
-        code += tab + tab + "let callsToMethod = methodCalls.filter { object in\n"
-        code += tab + tab + tab + "if let theMethod = object as? \(className)Stub<T> {\n"
-        code += tab + tab + tab + tab + "return theMethod == stub\n"
-        code += tab + tab + tab + "}"
-        code += "\n"
-        code += tab + tab + tab + "return false\n"
-        code += tab + tab + "}\n"
-        code += tab + tab + "return callsToMethod\n"
-        code += tab + "}\n"
-        code += tab + "\n"
-        
-        code += tab + "class func matchingMethods<T>(_ stub: \(className)Stub<T>) -> [Any] {\n"
-        code += tab + tab + "let callsToMethod = classMethodCalls.filter { object in\n"
-        code += tab + tab + tab + "if let theMethod = object as? \(className)Stub<T> {\n"
-        code += tab + tab + tab + tab + "return theMethod == stub\n"
-        code += tab + tab + tab + "}"
-        code += "\n"
-        code += tab + tab + tab + "return false\n"
-        code += tab + tab + "}\n"
-        code += tab + tab + "return callsToMethod\n"
-        code += tab + "}\n"
-        code += "\n"
         
         return code
     }
@@ -354,7 +298,6 @@ class FakeClassGenerator {
         code += tab + "}\n\n"
         
         for method in methods {
-            // TODO: Refactor this.
             if let _ = enumNameForMethod(method: method) {
                 code += tab + "public static func " + method.nameWithExternalNames
                 
@@ -431,8 +374,19 @@ class FakeClassGenerator {
         return code
     }
     
+    /**
+     Generate stub helpers.
+     
+     TODO: This could be in a template file and interpolated with respective `ClassStruct` values.
+     
+     */
     private func generateStubHelpers() -> String {
         var code: String = ""
+        code += tab + "var stubs = [(Any,Any)]()\n"
+        code += tab + "static var classStubs = [AnyHashable: Any]()\n"
+        code += tab + "private var methodCalls = [Any]()\n"
+        code += tab + "private static var classMethodCalls = [Any]()\n\n"
+
         code += tab + "func returnFor<T>(stub: \(className)Stub<T>) -> Any? {\n"
         code += tab + tab + "for tuple in stubs {\n"
         code += tab + tab + tab + "if let myStub = tuple.0 as? \(className)Stub<T> {\n"
@@ -442,11 +396,46 @@ class FakeClassGenerator {
         code += tab + tab + tab + "}\n"
         code += tab + tab + "}\n"
         code += tab + tab + "return nil\n"
-        code += tab + "}\n"
-        code += "\n"
+        code += tab + "}\n\n"
         
         code += tab + "func setReturnFor<T>(stub: \(className)Stub<T>, value: Any) {\n"
         code += tab + tab + "stubs.append((stub, value))\n"
+        code += tab + "}\n\n"
+        
+        code += tab + "func stub<T>(_ stub: \(className)Stub<T>) -> \(className)Return<T> {\n"
+        code += tab + tab + "return \(className)Return<T>(fake: self, stub: stub)\n"
+        code += tab + "}\n\n"
+        
+        code += tab + "class func stub<T>(_ stub: \(className)Stub<T>) -> \(className)ClassReturn<T> {\n"
+        code += tab + tab + "return \(className)ClassReturn<T>(stub: stub)\n"
+        code += tab + "}\n\n"
+        
+        code += tab + "func matchingMethods<T>(_ stub: \(className)Stub<T>) -> [Any] {\n"
+        code += tab + tab + "let callsToMethod = methodCalls.filter { object in\n"
+        code += tab + tab + tab + "if let theMethod = object as? \(className)Stub<T> {\n"
+        code += tab + tab + tab + tab + "return theMethod == stub\n"
+        code += tab + tab + tab + "}\n"
+        code += tab + tab + tab + "return false\n"
+        code += tab + tab + "}\n"
+        code += tab + tab + "return callsToMethod\n"
+        code += tab + "}\n\n"
+        
+        code += tab + "class func matchingMethods<T>(_ stub: \(className)Stub<T>) -> [Any] {\n"
+        code += tab + tab + "let callsToMethod = classMethodCalls.filter { object in\n"
+        code += tab + tab + tab + "if let theMethod = object as? \(className)Stub<T> {\n"
+        code += tab + tab + tab + tab + "return theMethod == stub\n"
+        code += tab + tab + tab + "}\n"
+        code += tab + tab + tab + "return false\n"
+        code += tab + tab + "}\n"
+        code += tab + tab + "return callsToMethod\n"
+        code += tab + "}\n\n"
+
+        code += tab + "func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
+        code += tab + tab + "return matchingMethods(method).count > 0\n"
+        code += tab + "}\n\n"
+        
+        code += tab + "class func didCall<T>(method: \(className)Stub<T>) -> Bool {\n"
+        code += tab + tab + "return matchingMethods(method).count > 0\n"
         code += tab + "}\n\n"
         
         return code

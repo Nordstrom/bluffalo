@@ -74,11 +74,6 @@ class FakeDog: Dog {
         stubs.append((stub, value))
     }
 
-    override func bark(_ volume: Int, _ tenacity: Int) {
-        let stub = DogStub<Any>(method: .bark_volume_tenacity(volume, tenacity))
-        methodCalls.append(stub)
-    }
-
     func stub<T>(_ stub: DogStub<T>) -> DogReturn<T> {
         return DogReturn<T>(fake: self, stub: stub)
     }
@@ -96,7 +91,7 @@ class FakeDog: Dog {
         }
         return callsToMethod
     }
-    
+
     class func matchingMethods<T>(_ stub: DogStub<T>) -> [Any] {
         let callsToMethod = classMethodCalls.filter { object in
             if let theMethod = object as? DogStub<T> {
@@ -114,6 +109,10 @@ class FakeDog: Dog {
     class func didCall<T>(method: DogStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
+
+    override func bark(_ volume: Int, _ tenacity: Int) {
+        let stub = DogStub<Any>(method: .bark_volume_tenacity(volume, tenacity))
+        methodCalls.append(stub)
+    }
+
 }
-
-

@@ -27,9 +27,9 @@ internal func generateFake(file: String, outFile: String, module: String?, impor
     code += testableImport(module)
 
     // Generate source code.
-    code += createFakeClassForFile(filepath: file) + "\n"
+    code += try createFakeClassForFile(filepath: file) + "\n"
 
-    write(code: code, to: outFile)
+    try write(code: code, to: outFile)
 }
 
 /**
@@ -38,13 +38,11 @@ internal func generateFake(file: String, outFile: String, module: String?, impor
  - parameter filepath: The filepath to parse through SourceKitten
  - returns: A `SwiftFile` which contains the file's contents and JSON parsed through SourceKitten
  */
-internal func loadSwiftFile(at filepath: String) -> SwiftFile {
+internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
     let sourceKittenPath: String = "/usr/local/bin/sourcekitten"
     
     guard FileManager.default.fileExists(atPath: sourceKittenPath) else {
-        print("Error! SourceKitten does not exist at path: \(sourceKittenPath)")
-        print("Install SourceKitten with 'brew install sourcekitten'")
-        exit(1)
+        throw BluffaloError.sourceKittenNotFound(path: sourceKittenPath)
     }
     
     let contentsOfFile = try! String(contentsOfFile: filepath)
@@ -61,8 +59,7 @@ internal func loadSwiftFile(at filepath: String) -> SwiftFile {
     let dataRead: Data = read.readDataToEndOfFile()
     
     guard let json = try? JSONSerialization.jsonObject(with: dataRead, options: .allowFragments) as! [String:AnyObject] else {
-        print("Error! Could not parse JSON data from sourcekitten.")
-        exit(1)
+        throw BluffaloError.sourceKittenParseFailure
     }
     
     return SwiftFile(contents: contentsOfFile, json: json)
@@ -74,8 +71,8 @@ internal func loadSwiftFile(at filepath: String) -> SwiftFile {
  - parameter filepath: The filepath to create a fake for.
  - returns: The fake generated code as a string.
  */
-internal func createFakeClassForFile(filepath: String) -> String {
-    let file = loadSwiftFile(at: filepath)
+internal func createFakeClassForFile(filepath: String) throws -> String {
+    let file = try loadSwiftFile(at: filepath)
     
     let classes: [Class] = parse(file: file)
     
@@ -87,26 +84,18 @@ internal func createFakeClassForFile(filepath: String) -> String {
     return code
 }
 
-// TODO: This should throw. Not just print.
-internal func write(code: String, to filepath: String) {
-    do {
-        // TODO: Make `filepath` point to `Fakes.swift` if `filepath` not provided.
-        let fileURL = URL(fileURLWithPath: filepath)
-        try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
-        print("Add \(fileURL.absoluteURL) to your project")
-    }
-    catch {
-        print("Failed to write file")
-    }
-}
-
 // MARK - Private functions
+
+private func write(code: String, to filepath: String) throws {
+    let fileURL = URL(fileURLWithPath: filepath)
+    try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
+    print("Add \(fileURL.absoluteURL) to your project")
+}
 
 /**
  Returns the `-module` parameter if module is provided.
  */
 private func moduleParameter(_ module: String?) -> String {
-    // TODO: Refactor this guard logic into a computed property (?)
     guard let module = module, module.characters.count > 0 else {
         return ""
     }

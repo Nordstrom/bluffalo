@@ -14,10 +14,10 @@ import Foundation
  - returns: An array of `Class` structures
  */
 internal func parse(file: SwiftFile) -> [Class] {
-    let classStructures = getClassDictionaries(json: file.json)
+    let classStructures = getClassDictionaries(from: file.json)
 
     let classes: [Class] = classStructures.map { (classStructureDict: [String: AnyObject]) -> Class in
-        return parseClass(json: classStructureDict, fileContents: file.contents)
+        return parseClass(from: classStructureDict, fileContents: file.contents)
     }
     
     return classes
@@ -28,7 +28,7 @@ internal func parse(file: SwiftFile) -> [Class] {
  
  - returns: All dictionaries which contain SourceKitten dictionaries
  */
-internal func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyObject]] {
+internal func getClassDictionaries(from json: [String: AnyObject]) -> [[String: AnyObject]] {
     var classStructures: [[String:AnyObject]] = json["key.substructure"] as! [[String:AnyObject]]
     classStructures = classStructures.filter({ (possibleClass) -> Bool in
         if let className = possibleClass["key.name"] {
@@ -51,7 +51,7 @@ internal func getClassDictionaries(json: [String: AnyObject]) -> [[String: AnyOb
  - parameter fileContents: The entire contents of the source file
  - returns: A `Class`
  */
-internal func parseClass(json: [String: AnyObject], fileContents: String) -> Class {
+internal func parseClass(from json: [String: AnyObject], fileContents: String) -> Class {
     var classKind: ClassKind = .Unknown
     
     if let kind = ClassKind(rawValue: json["key.kind"]! as! String) {
@@ -85,7 +85,7 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
         return ClassKind(rawValue: substructure["key.kind"] as! String) == nil
     }
     
-    let methods: [Method] = methodDicts.map { (methodStructureDict: [String : AnyObject]) -> Method in
+    let methods: [Method] = methodDicts.map { (methodStructureDict: [String: AnyObject]) -> Method in
         var methodKind: MethodKind = .Instance
         var methodAccessibility: MethodAccessibility = .Private
         var argumentNames: [String] = []
@@ -130,8 +130,8 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
         var methodSignature = methodName
         methodSignature = methodSignature.replacingOccurrences(of: ":", with: ":, ")
         methodSignature = methodSignature.replacingOccurrences(of: ":, )", with: ":)")
-        let externalArgumentNames = getExternalArgumentsFromMethodName(name: methodName) ?? argumentNames
-        let externalArgumentNamesWithInternalBackup = getExternalArgumentsFromMethodNameWithInternalNameBackup(name: methodName, internalArgumentNames: argumentNames) ?? argumentNames
+        let externalArgumentNames = getExternalArguments(from: methodName) ?? argumentNames
+        let externalArgumentNamesWithInternalBackup = getExternalArguments(from: methodName, internalArgumentNames: argumentNames) ?? argumentNames
         let i: Int = 0
         for i in i..<externalArgumentNames.count {
             let argumentToReplace: String = "\(externalArgumentNames[i]):"
@@ -162,13 +162,13 @@ private func parseMethods(from json: [String: AnyObject], fileContents: String) 
     return methods
 }
 
-private func getExternalArgumentsFromMethodName(name: String) -> [String]? {
+private func getExternalArguments(from methodName: String) -> [String]? {
     var externalArgumentNames: [String]?
     do {
         let regex = try NSRegularExpression(pattern: "(?<=\\().+?(?=\\))", options: [])
-        let nsString = name as NSString
+        let nsString = methodName as NSString
         
-        let results = regex.matches(in: name,
+        let results = regex.matches(in: methodName,
                                     options: [], range: NSMakeRange(0, nsString.length))
         let argumentsInMethodName = results.map { nsString.substring(with: $0.range)}
         externalArgumentNames = argumentsInMethodName.first?.components(separatedBy: ":")
@@ -181,16 +181,14 @@ private func getExternalArgumentsFromMethodName(name: String) -> [String]? {
     return externalArgumentNames
 }
 
-private func returnTypeFromMethod(json: [String: AnyObject], fileContents : String) -> String? {
+private func returnTypeFromMethod(json: [String: AnyObject], fileContents: String) -> String? {
     let start = json["key.offset"] as! Int
     let length = json["key.length"] as! Int
     
     let startIndex = fileContents.index(fileContents.startIndex, offsetBy: start)
-    
     let endIndex = fileContents.index(startIndex, offsetBy: length)
     
     let funcDeclarationString = fileContents.substring(with: Range(uncheckedBounds: (lower: startIndex, upper: endIndex)))
-    
     
     var parenthesesCount = 0
     var foundFirstParen: Bool = false
@@ -216,10 +214,8 @@ private func returnTypeFromMethod(json: [String: AnyObject], fileContents : Stri
         return nil
     }
     
-    
     let endOfReturnTypeRange = remainingFunctionString.range(of: "{")
     var endOfReturnTypeIndex: String.Index
-    
     if endOfReturnTypeRange == nil {
         endOfReturnTypeIndex = remainingFunctionString.endIndex
     }
@@ -235,13 +231,13 @@ private func returnTypeFromMethod(json: [String: AnyObject], fileContents : Stri
     return refinedReturnType
 }
 
-private func getExternalArgumentsFromMethodNameWithInternalNameBackup(name: String, internalArgumentNames: [String]) -> [String]? {
+private func getExternalArguments(from methodName: String, internalArgumentNames: [String]) -> [String]? {
     var externalArgumentNames: [String]?
     do {
         let regex = try NSRegularExpression(pattern: "(?<=\\().+?(?=\\))", options: [])
-        let nsString = name as NSString
+        let nsString = methodName as NSString
         
-        let results = regex.matches(in: name,
+        let results = regex.matches(in: methodName,
                                     options: [], range: NSMakeRange(0, nsString.length))
         let argumentsInMethodName = results.map { nsString.substring(with: $0.range)}
         externalArgumentNames = argumentsInMethodName.first?.components(separatedBy: ":")

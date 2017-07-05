@@ -22,8 +22,8 @@ class BluffaloTests: XCTestCase {
     
     func classStructForFile(_ fileName: String) -> [Class] {
         let filepath = resourceFilepath(for: fileName)
-        let file = loadSwiftFile(at: filepath)
-        let classes: [Class] = parse(file: file)
+        let file = try? loadSwiftFile(at: filepath)
+        let classes: [Class] = parse(file: file!)
         
         return classes
     }

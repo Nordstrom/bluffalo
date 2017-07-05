@@ -5,10 +5,6 @@
 
 import Foundation
 
-private struct Constant {
-    static let equalityFunction = "checkEquality"
-}
-
 private func stringForMethodKind(methodKind: MethodKind) -> String {
     switch methodKind {
     case .Class: return "class func"
@@ -24,7 +20,8 @@ class FakeClassGenerator {
     private let tab = "    "
     private let classFunctionsAndArgumentsCalledString: String = "classFunctionsAndArgumentsCalled"
     private let functionsAndArgumentsCalledString: String = "functionsAndArgumentsCalled"
-    
+    private let equalityFunction = "checkEquality"
+
     private let classStruct: Class
     
     private var className: String {
@@ -268,7 +265,7 @@ class FakeClassGenerator {
                         }
                         
                         if method.argumentTypes[i - 1].contains("AnyObject") {
-                            code += Constant.equalityFunction + "(a\(i), b: b\(i))"
+                            code += equalityFunction + "(a\(i), b: b\(i))"
                         }
                         else {
                             code += "a\(i) == b\(i)"
@@ -386,21 +383,21 @@ class FakeClassGenerator {
             return ""
         }
         
-        var text = ""
-        text += ".\(methodName)("
+        var code = ""
+        code += ".\(methodName)("
         
         var needsComma: Bool = false
         for argumentName: String in method.externalArgumentNames {
             if needsComma {
-                text += ", "
+                code += ", "
             }
-            text += "\(argumentName)"
+            code += "\(argumentName)"
             needsComma = true
         }
         
-        text += ")"
+        code += ")"
         
-        return text
+        return code
     }
     
     private func generateReturn() -> String {

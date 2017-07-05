@@ -14,6 +14,8 @@
 		07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
 		07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B211F0AF50200FEF0FA /* SwiftFile.swift */; };
 		07079B271F0B0A1E00FEF0FA /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B261F0B0A1E00FEF0FA /* Arguments.swift */; };
+		07079B291F0D39D900FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
+		07079B2D1F0D3BFB00FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
 		0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092171F0AB7C000A2E089 /* CommandLine.swift */; };
 		0720921B1F0AB7C000A2E089 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092181F0AB7C000A2E089 /* Option.swift */; };
 		0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092191F0AB7C000A2E089 /* StringExtensions.swift */; };
@@ -53,6 +55,7 @@
 /* Begin PBXFileReference section */
 		07079B211F0AF50200FEF0FA /* SwiftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftFile.swift; sourceTree = "<group>"; };
 		07079B261F0B0A1E00FEF0FA /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		07079B281F0D39D900FEF0FA /* BluffaloError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluffaloError.swift; sourceTree = "<group>"; };
 		072092171F0AB7C000A2E089 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommandLine.swift; path = Vendor/CommandLineKit/CommandLine.swift; sourceTree = "<group>"; };
 		072092181F0AB7C000A2E089 /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Option.swift; path = Vendor/CommandLineKit/Option.swift; sourceTree = "<group>"; };
 		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
@@ -89,6 +92,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07079B2A1F0D3B1F00FEF0FA /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
+				A7E9DEA01D99D1F9004406D7 /* Structures.swift */,
+				07079B211F0AF50200FEF0FA /* SwiftFile.swift */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		07079B2B1F0D3B4200FEF0FA /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
+				0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */,
+			);
+			name = Generator;
+			sourceTree = "<group>";
+		};
+		07079B2C1F0D3B5100FEF0FA /* CLI */ = {
+			isa = PBXGroup;
+			children = (
+				07079B261F0B0A1E00FEF0FA /* Arguments.swift */,
+			);
+			name = CLI;
+			sourceTree = "<group>";
+		};
 		072092141F0AB79500A2E089 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,14 +185,12 @@
 		A7D50AA91D8212200049D633 /* Bluffalo */ = {
 			isa = PBXGroup;
 			children = (
-				07079B261F0B0A1E00FEF0FA /* Arguments.swift */,
-				BB67EFD11DF248C7009CA1B0 /* FakeClassGenerator.swift */,
-				0D7DFAC31E4BD0580096D4E8 /* FakeFileGenerator.swift */,
+				07079B2C1F0D3B5100FEF0FA /* CLI */,
+				07079B2B1F0D3B4200FEF0FA /* Generator */,
+				07079B2A1F0D3B1F00FEF0FA /* Parser */,
+				07079B281F0D39D900FEF0FA /* BluffaloError.swift */,
 				07DE8D7D1F0AEC3400B19666 /* Info.plist */,
 				A7D50AAA1D8212200049D633 /* main.swift */,
-				BB67EFE61DF27366009CA1B0 /* Parser.swift */,
-				A7E9DEA01D99D1F9004406D7 /* Structures.swift */,
-				07079B211F0AF50200FEF0FA /* SwiftFile.swift */,
 			);
 			path = Bluffalo;
 			sourceTree = "<group>";
@@ -281,6 +309,7 @@
 				0D7DFAC41E4BD0580096D4E8 /* FakeFileGenerator.swift in Sources */,
 				07079B221F0AF50200FEF0FA /* SwiftFile.swift in Sources */,
 				07079B271F0B0A1E00FEF0FA /* Arguments.swift in Sources */,
+				07079B291F0D39D900FEF0FA /* BluffaloError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB67EFDA1DF26C81009CA1B0 /* BluffaloTests.swift in Sources */,
+				07079B2D1F0D3BFB00FEF0FA /* BluffaloError.swift in Sources */,
 				07079B1B1F0AF44A00FEF0FA /* Structures.swift in Sources */,
 				07079B1E1F0AF45200FEF0FA /* Parser.swift in Sources */,
 				07079B231F0AF51500FEF0FA /* SwiftFile.swift in Sources */,

@@ -86,58 +86,7 @@ class FakeClassGenerator {
         
         for method in methods {
             if let _ = enumNameForMethod(method: method) {
-                let methodKindString = stringForMethodKind(methodKind: method.kind)
-                
-                var overrideString: String = ""
-                
-                if classKind == .ClassKind {
-                    overrideString = "override "
-                }
-                
-                code += tab + "\(overrideString)\(methodKindString) \(method.nameWithExternalNames)"
-                
-                var stubGeneric = "Any"
-                if let returnType = method.returnType {
-                    code += " -> " + returnType
-                    stubGeneric = returnType
-                }
-                
-                code += " {\n"
-                
-                var parameters = "nil"
-                if method.externalArgumentNames.count > 0 {
-                    parameters = "["
-                    for argument in method.externalArgumentNames {
-                        parameters += "\"\(argument)\": \(argument),"
-                    }
-                    parameters += "]"
-                }
-                
-                let methodEnum = generateEnumWithPassedInParameters(for: method)
-                code += tab + tab + "let stub = \(className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
-                
-                switch method.kind {
-                case .Class:
-                    code += tab + tab + "classMethodCalls.append(stub)\n"
-                case .Instance:
-                    code += tab + tab + "methodCalls.append(stub)\n"
-                default:
-                    break
-                }
-                
-                if let returnType = method.returnType {
-                    switch method.kind {
-                    case .Class:
-                        code += tab + tab + "return classStubs[stub] as! \(returnType)\n"
-                    case .Instance:
-                        code += tab + tab + "return returnFor(stub: stub) as! \(returnType)\n"
-                    default:
-                        break
-                    }
-                    
-                }
-                code += tab + "}\n"
-                code += "\n"
+                code += generateStubFor(method: method)
             }
         }
         
@@ -163,6 +112,65 @@ class FakeClassGenerator {
         code += tab + "}\n"
         code += "}\n"
 
+        return code
+    }
+    
+    private func generateStubFor(method: Method) -> String {
+        var code: String = ""
+        
+        let methodKindString = stringForMethodKind(methodKind: method.kind)
+        
+        var overrideString: String = ""
+        
+        if classKind == .ClassKind {
+            overrideString = "override "
+        }
+        
+        code += tab + "\(overrideString)\(methodKindString) \(method.nameWithExternalNames)"
+        
+        var stubGeneric = "Any"
+        if let returnType = method.returnType {
+            code += " -> " + returnType
+            stubGeneric = returnType
+        }
+        
+        code += " {\n"
+        
+        var parameters = "nil"
+        if method.externalArgumentNames.count > 0 {
+            parameters = "["
+            for argument in method.externalArgumentNames {
+                parameters += "\"\(argument)\": \(argument),"
+            }
+            parameters += "]"
+        }
+        
+        let methodEnum = generateEnumWithPassedInParameters(for: method)
+        code += tab + tab + "let stub = \(className)Stub<\(stubGeneric)>(method: \(methodEnum))\n"
+        
+        switch method.kind {
+        case .Class:
+            code += tab + tab + "classMethodCalls.append(stub)\n"
+        case .Instance:
+            code += tab + tab + "methodCalls.append(stub)\n"
+        default:
+            break
+        }
+        
+        if let returnType = method.returnType {
+            switch method.kind {
+            case .Class:
+                code += tab + tab + "return classStubs[stub] as! \(returnType)\n"
+            case .Instance:
+                code += tab + tab + "return returnFor(stub: stub) as! \(returnType)\n"
+            default:
+                break
+            }
+            
+        }
+        code += tab + "}\n"
+        code += "\n"
+        
         return code
     }
     

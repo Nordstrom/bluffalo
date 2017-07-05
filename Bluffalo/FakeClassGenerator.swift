@@ -1,21 +1,25 @@
-/**
- Responsible for generating fake classes.
- 
+/*
+ * FakeClassGenerator.swift
+ * Copyright (c) 2017 Nordstrom, Inc. All rights reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import Foundation
 
-private func stringForMethodKind(methodKind: MethodKind) -> String {
-    switch methodKind {
-    case .Class: return "class func"
-    case .Instance: return "func"
-    case .Static: return "static func"
-    case .InstanceVar: return "var"
-    case .Call: return ""
-    case .StaticVar: return "static var"
-    }
-}
-
+/**
+ Responsible for generating fake classes.
+ */
 class FakeClassGenerator {
     private let tab = "    "
     private let classFunctionsAndArgumentsCalledString: String = "classFunctionsAndArgumentsCalled"
@@ -89,6 +93,17 @@ class FakeClassGenerator {
         return code
     }
     
+    private func stringForMethodKind(methodKind: MethodKind) -> String {
+        switch methodKind {
+        case .Class: return "class func"
+        case .Instance: return "func"
+        case .Static: return "static func"
+        case .InstanceVar: return "var"
+        case .Call: return ""
+        case .StaticVar: return "static var"
+        }
+    }
+
     private func generateStubFor(method: Method) -> String {
         var code: String = ""
         

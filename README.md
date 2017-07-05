@@ -1,10 +1,13 @@
 # Bluffalo
+
 Bluffalo allows you to do real mocking and stubbing in Swift.
 
 ## What does it do?
-It generates a subclass of whatever class you want with some extra methods and properties that allow you to stub values and see what was called.
+
+It generates a fake subclass, from a Swift class or protocol, and allows you to stub and inspect which methods were called on the fake.
 
 ## Limitations
+
 - Because this relies on subclassing, this will not work for stubs.
 - Properties cannot be stubbed yet.
 
@@ -13,13 +16,13 @@ It generates a subclass of whatever class you want with some extra methods and p
 ## Generating a fake
 
 ```
-bluffalo -file path/to/Cat.swift -outputFile path/to/FakeCat.swift -module containingModule
+bluffalo -f path/to/Cat.swift -o path/to/FakeCat.swift -m MyContainingModule
 ```
 
-You should add the outputted file to your project. The command used to create the fake will be added as a comment to the top of the file. This will make it easier to regenerate your class if you change it.
-
 ## Using a fake
-Lets say we have the following class
+
+Let's say we have the following class:
+
 ```
 class Cat {
   func numberOfLives() -> Int {
@@ -34,8 +37,8 @@ class Cat {
 }
 ```
 
-
 ### Stubbing Values
+
 ```
 let fakeCat = FakeCat()
 print( fakeCat.numberOfLives() ) // prints 9
@@ -44,6 +47,7 @@ print( fakeCat.numberOfLives() ) // prints 4
 ```
 
 ### Mocking
+
 ```
 let fakeCat = FakeCat()
 let numberOfLives = fakeCat.numberOfLives()

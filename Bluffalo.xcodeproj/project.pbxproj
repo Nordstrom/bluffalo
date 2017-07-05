@@ -16,6 +16,8 @@
 		07079B271F0B0A1E00FEF0FA /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B261F0B0A1E00FEF0FA /* Arguments.swift */; };
 		07079B291F0D39D900FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
 		07079B2D1F0D3BFB00FEF0FA /* BluffaloError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07079B281F0D39D900FEF0FA /* BluffaloError.swift */; };
+		07079B2F1F0D3F1E00FEF0FA /* Dog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 07079B2E1F0D3F1E00FEF0FA /* Dog.txt */; };
+		07079B311F0D499000FEF0FA /* FakeDog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 07079B301F0D499000FEF0FA /* FakeDog.txt */; };
 		0720921A1F0AB7C000A2E089 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092171F0AB7C000A2E089 /* CommandLine.swift */; };
 		0720921B1F0AB7C000A2E089 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092181F0AB7C000A2E089 /* Option.swift */; };
 		0720921C1F0AB7C000A2E089 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072092191F0AB7C000A2E089 /* StringExtensions.swift */; };
@@ -56,6 +58,8 @@
 		07079B211F0AF50200FEF0FA /* SwiftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftFile.swift; sourceTree = "<group>"; };
 		07079B261F0B0A1E00FEF0FA /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		07079B281F0D39D900FEF0FA /* BluffaloError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluffaloError.swift; sourceTree = "<group>"; };
+		07079B2E1F0D3F1E00FEF0FA /* Dog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Dog.txt; sourceTree = "<group>"; };
+		07079B301F0D499000FEF0FA /* FakeDog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FakeDog.txt; sourceTree = "<group>"; };
 		072092171F0AB7C000A2E089 /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommandLine.swift; path = Vendor/CommandLineKit/CommandLine.swift; sourceTree = "<group>"; };
 		072092181F0AB7C000A2E089 /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Option.swift; path = Vendor/CommandLineKit/Option.swift; sourceTree = "<group>"; };
 		072092191F0AB7C000A2E089 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Vendor/CommandLineKit/StringExtensions.swift; sourceTree = "<group>"; };
@@ -140,8 +144,10 @@
 		07B1F71D1F0AC6B700758951 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */,
 				BB67EFF21DF28C6C009CA1B0 /* Cat.txt */,
+				07079B2E1F0D3F1E00FEF0FA /* Dog.txt */,
+				BBA3EC071DF2933B0012E5E2 /* FakeCat.txt */,
+				07079B301F0D499000FEF0FA /* FakeDog.txt */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -286,7 +292,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07079B2F1F0D3F1E00FEF0FA /* Dog.txt in Resources */,
 				BB67EFF31DF28C6C009CA1B0 /* Cat.txt in Resources */,
+				07079B311F0D499000FEF0FA /* FakeDog.txt in Resources */,
 				BBA3EC081DF2933B0012E5E2 /* FakeCat.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

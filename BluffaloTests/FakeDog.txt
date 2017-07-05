@@ -1,0 +1,118 @@
+public enum DogMethod: Equatable, Hashable {
+    case bark_volume_tenacity(Int, Int)
+    public var hashValue: Int {
+        get {
+            switch self {
+            case .bark_volume_tenacity:
+                return 0
+            }
+        }
+    }
+}
+
+public func == (lhs: DogMethod, rhs: DogMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.bark_volume_tenacity(let a1, let a2), .bark_volume_tenacity(let b1, let b2)): return a1 == b1 && a2 == b2
+    }
+}
+
+struct DogStub<T>: Hashable, Equatable {
+    var method: DogMethod
+    var hashValue: Int {
+        return method.hashValue
+    }
+
+    init(method: DogMethod) {
+        self.method = method
+    }
+
+    public static func == (lhs: DogStub, rhs: DogStub) -> Bool {
+        return lhs.method == rhs.method
+    }
+
+    public static func bark(_ volume: Int, _ tenacity: Int) -> DogStub<Any> {
+        return DogStub<Any>(method: .bark_volume_tenacity(volume, tenacity))
+    }
+
+}
+
+struct DogReturn<T> {
+    var fake: FakeDog
+    var stub: DogStub<T>
+
+    func andReturn(_ value: T) {
+        fake.setReturnFor(stub: stub, value: value)
+    }
+}
+
+struct DogClassReturn<T> {
+    var stub: DogStub<T>
+
+    func andReturn(_ value: T) {
+        FakeDog.classStubs[stub] = value
+    }
+}
+
+class FakeDog: Dog {
+    var stubs = [(Any,Any)]()
+    static var classStubs = [AnyHashable: Any]()
+    private var methodCalls = [Any]()
+    private static var classMethodCalls = [Any]()
+
+    func returnFor<T>(stub: DogStub<T>) -> Any? {
+        for tuple in stubs {
+            if let myStub = tuple.0 as? DogStub<T> {
+                if myStub == stub {
+                    return tuple.1
+                }
+            }
+        }
+        return nil
+    }
+
+    func setReturnFor<T>(stub: DogStub<T>, value: Any) {
+        stubs.append((stub, value))
+    }
+
+    func stub<T>(_ stub: DogStub<T>) -> DogReturn<T> {
+        return DogReturn<T>(fake: self, stub: stub)
+    }
+
+    class func stub<T>(_ stub: DogStub<T>) -> DogClassReturn<T> {
+        return DogClassReturn<T>(stub: stub)
+    }
+
+    func matchingMethods<T>(_ stub: DogStub<T>) -> [Any] {
+        let callsToMethod = methodCalls.filter { object in
+            if let theMethod = object as? DogStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+
+    class func matchingMethods<T>(_ stub: DogStub<T>) -> [Any] {
+        let callsToMethod = classMethodCalls.filter { object in
+            if let theMethod = object as? DogStub<T> {
+                return theMethod == stub
+            }
+            return false
+        }
+        return callsToMethod
+    }
+
+    func didCall<T>(method: DogStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+    class func didCall<T>(method: DogStub<T>) -> Bool {
+        return matchingMethods(method).count > 0
+    }
+
+    override func bark(_ volume: Int, _ tenacity: Int) {
+        let stub = DogStub<Any>(method: .bark_volume_tenacity(volume, tenacity))
+        methodCalls.append(stub)
+    }
+
+}

@@ -78,7 +78,7 @@ class FakeClassGenerator {
     }
     
     private func generateFakeClass() -> String {
-        var code = "class Fake\(className): \(className) {\n"
+        var code = "class _Fake\(className): \(className) {\n"
         
         code += generateStubHelpers()
         
@@ -369,7 +369,7 @@ class FakeClassGenerator {
     private func generateReturn() -> String {
         var code: String = ""
         code += "struct \(className)Return<T> {\n"
-        code += tab + "var fake: Fake" + className + "\n"
+        code += tab + "var fake: _Fake" + className + "\n"
         code += tab + "var stub: \(className)Stub<T>\n"
         code += "\n"
         code += tab + "func andReturn(_ value: T) {\n"
@@ -382,7 +382,7 @@ class FakeClassGenerator {
         code += tab + "var stub: \(className)Stub<T>\n"
         code += "\n"
         code += tab + "func andReturn(_ value: T) {\n"
-        code += tab + tab + "Fake\(className).classStubs[stub] = value\n"
+        code += tab + tab + "_Fake\(className).classStubs[stub] = value\n"
         code += tab + "}\n"
         code += "}\n"
         

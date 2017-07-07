@@ -89,6 +89,12 @@ private func createFake(at fileUrl: URL, outFile: String, classes: [Class], modu
     code += "// Copy and paste the following command to regenerate this fake\n" +
             "// bluffalo -f \(fileUrl.path) -o \(outFile) \(moduleParameter(module))\n\n"
     
+    // Additional imports
+    code += additionalImports(from: imports)
+    
+    // Testable module import
+    code += testableImport(module)
+    
     code += classes.reduce("", { (code: String, clazz: Class) -> String in
         "class Fake\(clazz.name): _Fake\(clazz.name) {\n\n" +
         "}\n\n"

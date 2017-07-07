@@ -26,22 +26,16 @@ import Foundation
  - parameter imports: A list of additional imports to include in the generated fake.
  */
 internal func generateFake(file: String, outFile: String, module: String?, imports: [String]?) throws {
-    var code = ""
 
-    // CLI command that can be used to regenerate the fake.
-    code = "// Copy and paste the following command to regenerate this fake\n" +
-           "// bluffalo -f \(file) -o \(outFile) \(moduleParameter(module))\n\n"
+    let file = try loadSwiftFile(at: file)
+    let classes: [Class] = parse(file: file)
+
+    let fakeUrl = URL(fileURLWithPath: outFile)
+    let backingFileName = "_" + fakeUrl.lastPathComponent
+    let backUrl = fakeUrl.deletingLastPathComponent().appendingPathComponent(backingFileName)
     
-    // Additional imports
-    code += additionalImports(from: imports)
-    
-    // Testable module import
-    code += testableImport(module)
-
-    // Generate source code.
-    code += try createFakeClassForFile(filepath: file) + "\n"
-
-    try write(code: code, to: outFile)
+    try createFake(at: fakeUrl, outFile: outFile, classes: classes, module: module, imports: imports)
+    try createBackingFake(at: backUrl, classes: classes, module: module, imports: imports)
 }
 
 /**
@@ -77,31 +71,62 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
     return SwiftFile(contents: contentsOfFile, json: json)
 }
 
+// MARK - Private functions
+
 /**
- Create a fake for the file at `filepath`.
+ Creates an empty fake class which extends the backing fake class. This class is created only once to prevent changes made to the class from being over-written.
  
- - parameter filepath: The filepath to create a fake for.
- - returns: The fake generated code as a string.
  */
-internal func createFakeClassForFile(filepath: String) throws -> String {
-    let file = try loadSwiftFile(at: filepath)
+private func createFake(at fileUrl: URL, outFile: String, classes: [Class], module: String?, imports: [String]?) throws {
+    // Create this fake only once.
+    if FileManager.default.fileExists(atPath: fileUrl.path) {
+        return
+    }
     
-    let classes: [Class] = parse(file: file)
+    var code: String = ""
     
-    let code = classes.reduce("") { (code, classStruct) -> String in
+    // CLI command that can be used to regenerate the fake.
+    code += "// Copy and paste the following command to regenerate this fake\n" +
+            "// bluffalo -f \(fileUrl.path) -o \(outFile) \(moduleParameter(module))\n\n"
+    
+    code += classes.reduce("", { (code: String, clazz: Class) -> String in
+        "class Fake\(clazz.name): _Fake\(clazz.name) {\n\n" +
+        "}\n\n"
+    })
+    
+    try write(code: code, to: fileUrl)
+}
+
+/**
+ Creates the fake class containing all of the faking/stubbing logic.
+ 
+ */
+private func createBackingFake(at fileUrl: URL, classes: [Class], module: String?, imports: [String]?) throws {
+    var code: String = ""
+    
+    // Additional imports
+    code += additionalImports(from: imports)
+    
+    // Testable module import
+    code += testableImport(module)
+    
+    // Generate source code.
+    code += classes.reduce("") { (code, classStruct) -> String in
         let generator = FakeClassGenerator(classStruct: classStruct)
         return code + generator.makeFakeClass()
     }
     
-    return code
+    code += "\n"
+    
+    try write(code: code, to: fileUrl)
 }
 
-// MARK - Private functions
-
-private func write(code: String, to filepath: String) throws {
-    let fileURL = URL(fileURLWithPath: filepath)
+/**
+ Write code to a code path.
+ */
+private func write(code: String, to fileURL: URL) throws {
     try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
-    print("Add \(fileURL.absoluteURL) to your project")
+    print("I: Add fake at `\(fileURL.absoluteURL)` to your project")
 }
 
 /**

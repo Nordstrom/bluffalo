@@ -78,10 +78,12 @@ class FakeClassGenerator {
     }
     
     private func generateFakeClass() -> String {
-        var code = "class _Fake\(className): \(className) {\n"
+        var code = "class _Fake\(className): \(className) {\n\n"
         
+        code += tab + "// MARK - Stub Helpers\n\n"
         code += generateStubHelpers()
         
+        code += tab + "// MARK - Method Stubs\n\n"
         for method in methods {
             if let _ = enumNameForMethod(method: method) {
                 code += generateStubFor(method: method)

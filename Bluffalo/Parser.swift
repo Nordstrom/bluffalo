@@ -17,7 +17,7 @@
 
 import Foundation
 
-// MARK - Internal functions
+// MARK: - Internal functions
 
 /**
  Parses a `SwiftFile` and returns `Class` structures.
@@ -86,7 +86,7 @@ internal func parseClass(from json: [String: AnyObject], fileContents: String) -
     return Class(kind: classKind, name: className, methods: methods)
 }
 
-// MARK - Private functions
+// MARK: - Private functions
 
 private func parseMethods(from json: [String: AnyObject], fileContents: String) -> [Method] {
     guard let substructures: [[String:AnyObject]] = json["key.substructure"] as? [[String:AnyObject]] else {

@@ -17,7 +17,7 @@
 
 import Foundation
 
-// MARK - Parse CLI arguments
+// MARK: - Parse CLI arguments
 
 let cli = CommandLineParser()
 
@@ -43,7 +43,7 @@ let args = Arguments(
     imports: importsOption.value
 )
 
-// MARK - Generate fakes
+// MARK: - Generate fakes
 
 do {
     try generateFake(file: args.file, outFile: args.outFile, module: args.module, imports: args.imports)

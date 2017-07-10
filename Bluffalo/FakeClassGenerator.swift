@@ -48,7 +48,7 @@ class FakeClassGenerator {
         self.classStruct = classStruct
     }
     
-    // MARK - Public functions
+    // MARK: - Public functions
     
     func makeFakeClass() -> String {
         guard methods.count > 0 else {
@@ -61,7 +61,7 @@ class FakeClassGenerator {
         return fakeHelpers + fakeClass
     }
     
-    // MARK - Private functions
+    // MARK: - Private functions
     
     private func generateFakeHelpers() -> String {
         var code: String = ""
@@ -80,10 +80,10 @@ class FakeClassGenerator {
     private func generateFakeClass() -> String {
         var code = "class _Fake\(className): \(className) {\n\n"
         
-        code += tab + "// MARK - Stub Helpers\n\n"
+        code += tab + "// MARK: - Stub Helpers\n\n"
         code += generateStubHelpers()
         
-        code += tab + "// MARK - Method Stubs\n\n"
+        code += tab + "// MARK: - Method Stubs\n\n"
         for method in methods {
             if let _ = enumNameForMethod(method: method) {
                 code += generateStubFor(method: method)

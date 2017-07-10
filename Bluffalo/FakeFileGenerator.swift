@@ -71,7 +71,7 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
     return SwiftFile(contents: contentsOfFile, json: json)
 }
 
-// MARK - Private functions
+// MARK: - Private functions
 
 /**
  Creates an empty fake class which extends the backing fake class. This class is created only once to prevent changes made to the class from being over-written.

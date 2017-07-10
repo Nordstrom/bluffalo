@@ -1,4 +1,4 @@
-# Bluffalo
+![Bluffalo: Real Mocking In Swift](https://raw.githubusercontent.com/PeqNP/bluffalo/master/assets/bluffalo-with-text-600.png)
 
 Bluffalo allows you to do real mocking and stubbing in Swift.
 

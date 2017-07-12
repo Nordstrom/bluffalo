@@ -37,7 +37,7 @@ struct DogStub<T>: Hashable, Equatable {
 }
 
 struct DogReturn<T> {
-    var fake: FakeDog
+    var fake: _FakeDog
     var stub: DogStub<T>
 
     func andReturn(_ value: T) {
@@ -49,12 +49,15 @@ struct DogClassReturn<T> {
     var stub: DogStub<T>
 
     func andReturn(_ value: T) {
-        FakeDog.classStubs[stub] = value
+        _FakeDog.classStubs[stub] = value
     }
 }
 
-class FakeDog: Dog {
-    var stubs = [(Any,Any)]()
+class _FakeDog: Dog {
+
+    // MARK: - Stub Helpers
+
+    var stubs = [(Any, Any)]()
     static var classStubs = [AnyHashable: Any]()
     private var methodCalls = [Any]()
     private static var classMethodCalls = [Any]()
@@ -109,6 +112,8 @@ class FakeDog: Dog {
     class func didCall<T>(method: DogStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
+
+    // MARK: - Method Stubs
 
     override func bark(_ volume: Int, _ tenacity: Int) {
         let stub = DogStub<Any>(method: .bark_volume_tenacity(volume, tenacity))

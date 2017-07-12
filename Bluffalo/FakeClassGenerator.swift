@@ -399,7 +399,7 @@ class FakeClassGenerator {
      */
     private func generateStubHelpers() -> String {
         var code: String = ""
-        code += tab + "var stubs = [(Any,Any)]()\n"
+        code += tab + "var stubs = [(Any, Any)]()\n"
         code += tab + "static var classStubs = [AnyHashable: Any]()\n"
         code += tab + "private var methodCalls = [Any]()\n"
         code += tab + "private static var classMethodCalls = [Any]()\n\n"

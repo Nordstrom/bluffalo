@@ -46,7 +46,7 @@ let args = Arguments(
 // MARK: - Generate fakes
 
 do {
-    try generateFake(file: args.file, outFile: args.outFile, module: args.module, imports: args.imports)
+    try generateFake(inFile: args.file, outFile: args.outFile, module: args.module, imports: args.imports)
 }
 catch {
     exit(EXIT_FAILURE)

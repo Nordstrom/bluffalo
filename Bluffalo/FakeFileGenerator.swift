@@ -25,16 +25,16 @@ import Foundation
  - parameter module: The module which the class resides in.
  - parameter imports: A list of additional imports to include in the generated fake.
  */
-internal func generateFake(file: String, outFile: String, module: String?, imports: [String]?) throws {
+internal func generateFake(inFile: String, outFile: String, module: String?, imports: [String]?) throws {
 
-    let file = try loadSwiftFile(at: file)
+    let file = try loadSwiftFile(at: inFile)
     let classes: [Class] = parse(file: file)
 
     let fakeUrl = URL(fileURLWithPath: outFile)
     let backingFileName = "_" + fakeUrl.lastPathComponent
     let backUrl = fakeUrl.deletingLastPathComponent().appendingPathComponent(backingFileName)
     
-    try createFake(at: fakeUrl, outFile: outFile, classes: classes, module: module, imports: imports)
+    try createFake(at: fakeUrl, inFile: inFile, outFile: outFile, classes: classes, module: module, imports: imports)
     try createBackingFake(at: backUrl, classes: classes, module: module, imports: imports)
 }
 
@@ -77,7 +77,7 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
  Creates an empty fake class which extends the backing fake class. This class is created only once to prevent changes made to the class from being over-written.
  
  */
-private func createFake(at fileUrl: URL, outFile: String, classes: [Class], module: String?, imports: [String]?) throws {
+private func createFake(at fileUrl: URL, inFile: String, outFile: String, classes: [Class], module: String?, imports: [String]?) throws {
     // Create this fake only once.
     if FileManager.default.fileExists(atPath: fileUrl.path) {
         return
@@ -87,7 +87,7 @@ private func createFake(at fileUrl: URL, outFile: String, classes: [Class], modu
     
     // CLI command that can be used to regenerate the fake.
     code += "// Copy and paste the following command to regenerate this fake\n" +
-            "// bluffalo -f \(fileUrl.path) -o \(outFile) \(moduleParameter(module))\n\n"
+            "// bluffalo -f \(inFile) -o \(outFile) \(moduleParameter(module))\n\n"
     
     // Additional imports
     code += additionalImports(from: imports)

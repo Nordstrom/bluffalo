@@ -128,7 +128,7 @@ private func createBackingFake(at fileUrl: URL, classes: [Class], module: String
 }
 
 /**
- Write code to a code path.
+ Write `code` to `fileURL`.
  */
 private func write(code: String, to fileURL: URL) throws {
     try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)

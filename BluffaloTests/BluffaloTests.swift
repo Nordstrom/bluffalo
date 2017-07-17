@@ -48,7 +48,7 @@ class BluffaloTests: XCTestCase {
         let classStructArray: [Class] = classStructForFile("Cat")
         var finalClassString = ""
         for classStruct in classStructArray {
-            let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
+            let classString = FakeClassGenerator(classStruct: classStruct, prepend: "_Fake").makeFakeClass()
             finalClassString += classString + "\n"
         }
         
@@ -61,7 +61,7 @@ class BluffaloTests: XCTestCase {
         let classStructArray: [Class] = classStructForFile("Dog")
         var finalClassString = ""
         for classStruct in classStructArray {
-            let classString = FakeClassGenerator(classStruct: classStruct).makeFakeClass()
+            let classString = FakeClassGenerator(classStruct: classStruct, prepend: "_Fake").makeFakeClass()
             finalClassString += classString + "\n"
         }
         

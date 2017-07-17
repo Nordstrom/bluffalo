@@ -31,11 +31,8 @@ internal func generateFake(inFile: String, outFile: String, module: String?, imp
     let classes: [Class] = parse(file: file)
 
     let fakeUrl = URL(fileURLWithPath: outFile)
-    let backingFileName = "_" + fakeUrl.lastPathComponent
-    let backUrl = fakeUrl.deletingLastPathComponent().appendingPathComponent(backingFileName)
     
     try createFake(at: fakeUrl, inFile: inFile, outFile: outFile, classes: classes, module: module, imports: imports)
-    try createBackingFake(at: backUrl, classes: classes, module: module, imports: imports)
 }
 
 /**
@@ -74,42 +71,16 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
 // MARK: - Private functions
 
 /**
- Creates an empty fake class which extends the backing fake class. This class is created only once to prevent changes made to the class from being over-written.
+ Create fake class containing all of the faking/stubbing logic.
  
  */
 private func createFake(at fileUrl: URL, inFile: String, outFile: String, classes: [Class], module: String?, imports: [String]?) throws {
-    // Create this fake only once.
-    if FileManager.default.fileExists(atPath: fileUrl.path) {
-        return
-    }
-    
     var code: String = ""
     
     // CLI command that can be used to regenerate the fake.
     code += "// Copy and paste the following command to regenerate this fake\n" +
-            "// bluffalo -f \(inFile) -o \(outFile) \(moduleParameter(module))\n\n"
-    
-    // Additional imports
-    code += additionalImports(from: imports)
-    
-    // Testable module import
-    code += testableImport(module)
-    
-    code += classes.reduce("", { (code: String, clazz: Class) -> String in
-        "class Fake\(clazz.name): _Fake\(clazz.name) {\n\n" +
-        "}\n\n"
-    })
-    
-    try write(code: code, to: fileUrl)
-}
+    "// bluffalo -f \(inFile) -o \(outFile) \(moduleParameter(module))\n\n"
 
-/**
- Creates the fake class containing all of the faking/stubbing logic.
- 
- */
-private func createBackingFake(at fileUrl: URL, classes: [Class], module: String?, imports: [String]?) throws {
-    var code: String = ""
-    
     // Additional imports
     code += additionalImports(from: imports)
     

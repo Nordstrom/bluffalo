@@ -26,7 +26,12 @@ class FakeClassGenerator {
     private let functionsAndArgumentsCalledString: String = "functionsAndArgumentsCalled"
     private let equalityFunction = "checkEquality"
 
+    private let classPrepend: String
     private let classStruct: Class
+    
+    private var fakeClassName: String {
+        return "\(classPrepend)\(className)"
+    }
     
     private var className: String {
         return classStruct.name
@@ -44,8 +49,9 @@ class FakeClassGenerator {
         return classStruct.enumName
     }
     
-    init(classStruct: Class) {
+    init(classStruct: Class, prepend: String = "Fake") {
         self.classStruct = classStruct
+        self.classPrepend = prepend
     }
     
     // MARK: - Public functions
@@ -78,7 +84,7 @@ class FakeClassGenerator {
     }
     
     private func generateFakeClass() -> String {
-        var code = "class _Fake\(className): \(className) {\n\n"
+        var code = "class \(fakeClassName): \(className) {\n\n"
         
         code += tab + "// MARK: - Stub Helpers\n\n"
         code += generateStubHelpers()
@@ -371,7 +377,7 @@ class FakeClassGenerator {
     private func generateReturn() -> String {
         var code: String = ""
         code += "struct \(className)Return<T> {\n"
-        code += tab + "var fake: _Fake" + className + "\n"
+        code += tab + "var fake: \(fakeClassName)\n"
         code += tab + "var stub: \(className)Stub<T>\n"
         code += "\n"
         code += tab + "func andReturn(_ value: T) {\n"
@@ -384,7 +390,7 @@ class FakeClassGenerator {
         code += tab + "var stub: \(className)Stub<T>\n"
         code += "\n"
         code += tab + "func andReturn(_ value: T) {\n"
-        code += tab + tab + "_Fake\(className).classStubs[stub] = value\n"
+        code += tab + tab + "\(fakeClassName).classStubs[stub] = value\n"
         code += tab + "}\n"
         code += "}\n"
         

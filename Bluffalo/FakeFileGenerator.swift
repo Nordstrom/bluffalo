@@ -48,7 +48,7 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
         throw BluffaloError.sourceKittenNotFound(path: sourceKittenPath)
     }
     
-    let contentsOfFile = try! String(contentsOfFile: filepath)
+    let contentsOfFile = try! String(contentsOfFile: filepath, encoding: String.Encoding.ascii)
     
     let task = Process()
     task.launchPath = "/usr/local/bin/sourcekitten"

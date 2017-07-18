@@ -10,27 +10,45 @@ class Cat: CatDelegate {
 
     var dog: Int = 4
 
+    /**
+     Number of lives for señor cat.
+     */
     func numberOfLives() -> Int {
         return 9;
     }
 
+    /**
+     Make señor cat do something.
+     */
     func doStuff() -> Int {
         print("stuff")
         return 4;
     }
 
+    /**
+     Señor cat will do stuff with `foo`.
+     */
     func doStuff(foo: Int) -> Int? {
         return 9
     }
 
+    /**
+     Do a class method with Señor Pokèmon.
+     */
     class func doClassMethod() -> Int {
         return 5
     }
-    
+
+    /**
+     Pokèmon is ポケットモンスター in Japanese.
+     */
     func name() {
 
     }
 
+    /**
+     FYI: The reason for all the weird comments is to break the parser.
+     */
     func catMeowed() {
 
     }

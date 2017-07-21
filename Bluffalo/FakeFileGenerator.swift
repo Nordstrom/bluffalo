@@ -25,23 +25,14 @@ import Foundation
  - parameter module: The module which the class resides in.
  - parameter imports: A list of additional imports to include in the generated fake.
  */
-internal func generateFake(file: String, outFile: String, module: String?, imports: [String]?) throws {
-    var code = ""
+internal func generateFake(inFile: String, outFile: String, module: String?, imports: [String]?) throws {
 
-    // CLI command that can be used to regenerate the fake.
-    code = "// Copy and paste the following command to regenerate this fake\n" +
-           "// bluffalo -f \(file) -o \(outFile) \(moduleParameter(module))\n\n"
+    let file = try loadSwiftFile(at: inFile)
+    let classes: [Class] = parse(file: file)
+
+    let fakeUrl = URL(fileURLWithPath: outFile)
     
-    // Additional imports
-    code += additionalImports(from: imports)
-    
-    // Testable module import
-    code += testableImport(module)
-
-    // Generate source code.
-    code += try createFakeClassForFile(filepath: file) + "\n"
-
-    try write(code: code, to: outFile)
+    try createFake(at: fakeUrl, inFile: inFile, outFile: outFile, classes: classes, module: module, imports: imports)
 }
 
 /**
@@ -57,7 +48,7 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
         throw BluffaloError.sourceKittenNotFound(path: sourceKittenPath)
     }
     
-    let contentsOfFile = try! String(contentsOfFile: filepath)
+    let contentsOfFile = try! String(contentsOfFile: filepath, encoding: String.Encoding.ascii)
     
     let task = Process()
     task.launchPath = "/usr/local/bin/sourcekitten"
@@ -77,31 +68,42 @@ internal func loadSwiftFile(at filepath: String) throws -> SwiftFile {
     return SwiftFile(contents: contentsOfFile, json: json)
 }
 
+// MARK: - Private functions
+
 /**
- Create a fake for the file at `filepath`.
+ Create fake class containing all of the faking/stubbing logic.
  
- - parameter filepath: The filepath to create a fake for.
- - returns: The fake generated code as a string.
  */
-internal func createFakeClassForFile(filepath: String) throws -> String {
-    let file = try loadSwiftFile(at: filepath)
+private func createFake(at fileUrl: URL, inFile: String, outFile: String, classes: [Class], module: String?, imports: [String]?) throws {
+    var code: String = ""
     
-    let classes: [Class] = parse(file: file)
+    // CLI command that can be used to regenerate the fake.
+    code += "// Copy and paste the following command to regenerate this fake\n" +
+    "// bluffalo -f \(inFile) -o \(outFile) \(moduleParameter(module))\n\n"
+
+    // Additional imports
+    code += additionalImports(from: imports)
     
-    let code = classes.reduce("") { (code, classStruct) -> String in
+    // Testable module import
+    code += testableImport(module)
+    
+    // Generate source code.
+    code += classes.reduce("") { (code, classStruct) -> String in
         let generator = FakeClassGenerator(classStruct: classStruct)
         return code + generator.makeFakeClass()
     }
     
-    return code
+    code += "\n"
+    
+    try write(code: code, to: fileUrl)
 }
 
-// MARK - Private functions
-
-private func write(code: String, to filepath: String) throws {
-    let fileURL = URL(fileURLWithPath: filepath)
+/**
+ Write `code` to `fileURL`.
+ */
+private func write(code: String, to fileURL: URL) throws {
     try code.write(to: fileURL, atomically: false, encoding: String.Encoding.utf8)
-    print("Add \(fileURL.absoluteURL) to your project")
+    print("I: Add fake at `\(fileURL.path)` to your project")
 }
 
 /**

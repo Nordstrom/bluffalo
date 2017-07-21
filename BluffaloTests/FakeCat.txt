@@ -37,7 +37,7 @@ struct CatDelegateStub<T>: Hashable, Equatable {
 }
 
 struct CatDelegateReturn<T> {
-    var fake: FakeCatDelegate
+    var fake: _FakeCatDelegate
     var stub: CatDelegateStub<T>
 
     func andReturn(_ value: T) {
@@ -49,12 +49,15 @@ struct CatDelegateClassReturn<T> {
     var stub: CatDelegateStub<T>
 
     func andReturn(_ value: T) {
-        FakeCatDelegate.classStubs[stub] = value
+        _FakeCatDelegate.classStubs[stub] = value
     }
 }
 
-class FakeCatDelegate: CatDelegate {
-    var stubs = [(Any,Any)]()
+class _FakeCatDelegate: CatDelegate {
+
+    // MARK: - Stub Helpers
+
+    var stubs = [(Any, Any)]()
     static var classStubs = [AnyHashable: Any]()
     private var methodCalls = [Any]()
     private static var classMethodCalls = [Any]()
@@ -109,6 +112,8 @@ class FakeCatDelegate: CatDelegate {
     class func didCall<T>(method: CatDelegateStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
+
+    // MARK: - Method Stubs
 
     func catMeowed() {
         let stub = CatDelegateStub<Any>(method: .catMeowed())
@@ -203,7 +208,7 @@ struct CatStub<T>: Hashable, Equatable {
 }
 
 struct CatReturn<T> {
-    var fake: FakeCat
+    var fake: _FakeCat
     var stub: CatStub<T>
 
     func andReturn(_ value: T) {
@@ -215,12 +220,15 @@ struct CatClassReturn<T> {
     var stub: CatStub<T>
 
     func andReturn(_ value: T) {
-        FakeCat.classStubs[stub] = value
+        _FakeCat.classStubs[stub] = value
     }
 }
 
-class FakeCat: Cat {
-    var stubs = [(Any,Any)]()
+class _FakeCat: Cat {
+
+    // MARK: - Stub Helpers
+
+    var stubs = [(Any, Any)]()
     static var classStubs = [AnyHashable: Any]()
     private var methodCalls = [Any]()
     private static var classMethodCalls = [Any]()
@@ -275,6 +283,8 @@ class FakeCat: Cat {
     class func didCall<T>(method: CatStub<T>) -> Bool {
         return matchingMethods(method).count > 0
     }
+
+    // MARK: - Method Stubs
 
     override func numberOfLives() -> Int {
         let stub = CatStub<Int>(method: .numberOfLives())

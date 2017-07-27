@@ -2,7 +2,7 @@ class Bluffalo < Formula
   desc "Allows you to do real mocking and stubbing in Swift."
   homepage "https://github.com/Nordstrom/bluffalo"
   url "https://github.com/Nordstrom/bluffalo/archive/1.1.tar.gz"
-  sha256 "68c4cc308382dfd73b52a67203b17e2dddc7f0b930066d198f74f861f6608730"
+  sha256 "6adbf998ac21e05bdb3dbf01cd35b03de8cc5f1b71df5933a9d9deb1a2e11745"
   head "https://github.com/Nordstrom/bluffalo.git", :shallow => false
 
   depends_on :xcode => ["8.0", :build]

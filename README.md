@@ -8,7 +8,7 @@ It generates a fake subclass, from a Swift class or protocol, and allows you to 
 
 ## Limitations
 
-- Because this relies on subclassing, this will not work for stubs.
+- Because this relies on subclassing, this will not work for structs.
 - Properties cannot be stubbed yet.
 
 # Installing
